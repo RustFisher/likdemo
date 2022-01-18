@@ -11,6 +11,9 @@ _assets_model("slash/Red_swing")
 _assets_model("buff/Echo")
 _assets_model("word/Rank_BaHuangLeiDong_AoShiQunXiong")
 _assets_model("word/Rank_AoShiTianXia")
+_assets_model("buff/InvinciblePurpleBall", "InvinciblePurpleBall")
+_assets_model("buff/IonCentrifugalCircle", "IonCentrifugalCircle")
+_assets_model("buff/Liberty", "Liberty")
 
 _assets_ui("wilulla_set")
 _assets_ui("wilulla_debug") --DEBUG次之
