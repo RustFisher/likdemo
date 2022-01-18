@@ -1,2 +1,0 @@
-# wilulla-demo
-wilulla demo
