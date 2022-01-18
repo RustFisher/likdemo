@@ -90,7 +90,7 @@ process.onSetup(function(this)
                     Team("enemy").unit(TPL_UNIT.Footman, x, y, 270).destroy(during)
                 elseif (type == "ttg") then
                     --测试模型漂浮字，成绩：50万 clear
-                    ttg.char({
+                    ttg.word({
                         int = math.rand(10000, 99999),
                         width = 10,
                         size = 0.25,

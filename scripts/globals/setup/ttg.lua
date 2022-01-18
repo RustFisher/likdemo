@@ -1,0 +1,13 @@
+-- 漂浮字符
+ttg.char("0", "wilulla_ttg_0", 1.9)
+ttg.char("1", "wilulla_ttg_1", 1.8)
+ttg.char("2", "wilulla_ttg_2", 1.8)
+ttg.char("3", "wilulla_ttg_3", 1.8)
+ttg.char("4", "wilulla_ttg_4", 1.8)
+ttg.char("5", "wilulla_ttg_5", 1.8)
+ttg.char("6", "wilulla_ttg_6", 1.8)
+ttg.char("7", "wilulla_ttg_7", 1.8)
+ttg.char("8", "wilulla_ttg_8", 1.8)
+ttg.char("9", "wilulla_ttg_9", 1.8)
+ttg.char("+", "wilulla_ttg_+", 1.7)
+ttg.char("-", "wilulla_ttg_-", 1.7)

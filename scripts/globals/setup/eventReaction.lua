@@ -7,7 +7,7 @@ end
 ---@param evtData noteOnUnitCritData
 event.reaction(EVENT.Unit.Crit, function(evtData)
     evtData.targetUnit.attach("singluar_crit", "origin", 0.5, 1)
-    ttg.mdx({
+    ttg.model({
         model = "singluar_ttg_crit",
         size = 1.4,
         x = evtData.targetUnit.x(),
@@ -25,7 +25,7 @@ end)
 ---@param evtData noteOnUnitImmuneInvincibleData
 event.reaction(EVENT.Unit.ImmuneInvincible, function(evtData)
     evtData.triggerUnit.attach("DivineShieldTarget", "origin", 1)
-    ttg.mdx({
+    ttg.model({
         model = "singluar_ttg_immuneInvincible",
         size = 1.4,
         x = evtData.triggerUnit.x(),
@@ -37,7 +37,7 @@ event.reaction(EVENT.Unit.ImmuneInvincible, function(evtData)
 end)
 ---@param evtData noteOnUnitImmuneDefendData
 event.reaction(EVENT.Unit.ImmuneDefend, function(evtData)
-    ttg.mdx({
+    ttg.model({
         model = "singluar_ttg_immune",
         size = 1.2,
         x = evtData.triggerUnit.x(),
@@ -49,7 +49,7 @@ event.reaction(EVENT.Unit.ImmuneDefend, function(evtData)
 end)
 ---@param evtData noteOnUnitImmuneReductionData
 event.reaction(EVENT.Unit.ImmuneReduction, function(evtData)
-    ttg.mdx({
+    ttg.model({
         model = "singluar_ttg_immune",
         size = 1.2,
         x = evtData.triggerUnit.x(),
@@ -94,7 +94,7 @@ event.reaction(EVENT.Unit.Be.SplitSpread, function(evtData)
 end)
 ---@param evtData noteOnUnitHurtData
 event.reaction(EVENT.Unit.Hurt, function(evtData)
-    ttg.char({
+    ttg.word({
         int = math.floor(evtData.damage),
         width = 7,
         size = 0.4,
@@ -107,7 +107,7 @@ event.reaction(EVENT.Unit.Hurt, function(evtData)
 end)
 ---@param evtData noteOnUnitEnchantData
 event.reaction(EVENT.Unit.Enchant, function(evtData)
-    ttg.mdx({
+    ttg.model({
         model = "singluar_ttg_e_" .. evtData.enchantType,
         size = 1.1,
         x = evtData.targetUnit.x() - math.rand(50, 100),
