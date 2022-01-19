@@ -33,12 +33,12 @@ TPL_ABILITY.King = AbilityTpl()
         local curAtk = 0
         if (atkTarget == nil) then
             curAtk = 1
-        elseif (attackData.targetUnit.id() == atkTarget) then
+        elseif (attackData.targetUnit:id() == atkTarget) then
             curAtk = atk + 1
         end
         local diff = curAtk - atk
         attackData.triggerAbility.prop("atk", curAtk)
-        attackData.triggerAbility.prop("atkTarget", attackData.targetUnit.id())
+        attackData.triggerAbility.prop("atkTarget", attackData.targetUnit:id())
         if (diff ~= 0) then
             if (diff > 0) then
                 attackData.triggerUnit.crit("+=" .. (diff * 5))

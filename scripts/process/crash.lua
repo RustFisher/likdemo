@@ -44,7 +44,7 @@ process:onStart(function(this)
         local number = tonumber(chatOptions[4]) or 1000
         local during = tonumber(chatOptions[5]) or 3
         if (type == "" or table.includes({ "var", "unit", "ttg", "effect", "timer", "stop" }, type) == false) then
-            err('error:' .. type)
+            error('error:' .. type)
             return
         end
         if (type == 'stop') then
