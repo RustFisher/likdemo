@@ -1,6 +1,6 @@
 local process = Process("battle")
 
-process.onSetup(function(this)
+process:onStart(function(this)
     local u1 = Unit(TPL_UNIT.HeroFlameLord, Player(1), 400, -1000, 66.6)
         .level(1)
         .reborn(0.5)
@@ -46,7 +46,7 @@ process.onSetup(function(this)
 
 end)
 
-process.onDestroy(function(this)
+process:onOver(function(this)
     this.stage("u1").destroy()
     local u2s = this.stage("u2s")
     for _, v in ipairs(u2s) do

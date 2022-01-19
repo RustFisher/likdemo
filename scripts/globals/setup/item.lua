@@ -1,16 +1,16 @@
 -- 配置游戏 - 物品栏热键
 -- 这里使用魔兽的 78 45 12
-Game().itemHotkey({ "Numpad7", "Numpad8", "Numpad4", "Numpad5", "Numpad1", "Numpad2" })
+Game():itemHotkey({ "Numpad7", "Numpad8", "Numpad4", "Numpad5", "Numpad1", "Numpad2" })
 
-Game().itemExp(99, 100, 1.00, 10000)
+Game():itemExp(99, 100, 1.00, 10000)
 
 -- 配置游戏 - 玩家仓库
-Game().warehouseSlot(18)
+Game():warehouseSlot(18)
 
 -- 定义物品技能描述体
 -- [基础信息]
 ---@param this Ability
-Game().defineDescription("itemAbility", function(this, options)
+Game():defineDescription("itemAbility", function(this, options)
     local str = { '', this.name() .. ': ' }
     local lv = math.floor(this.level())
     local tt = this.targetType()
@@ -38,7 +38,7 @@ end)
 -- 定义物品描述体
 -- [基础信息]
 ---@param this Item
-Game().defineDescription("itemBase", function(this, _)
+Game():defineDescription("itemBase", function(this, _)
     local desc = {}
     local name
     if (this.level() > 0) then
@@ -46,9 +46,9 @@ Game().defineDescription("itemBase", function(this, _)
     else
         name = this.name()
     end
-    if (isObject(this.ability(), "Ability")) then
+    if (isClass(this.ability(), "Ability")) then
         local tt = this.ability().targetType()
-        if (isObject(this, "Item")) then
+        if (isClass(this, "Item")) then
             if (tt ~= ABILITY_TARGET_TYPE.PAS and this.hotkey() ~= nil) then
                 name = name .. '（' .. colour.gold(this.hotkey()) .. '）'
             end
@@ -56,7 +56,7 @@ Game().defineDescription("itemBase", function(this, _)
         else
             table.insert(desc, name)
         end
-        desc = table.merge(desc, Game().combineDescription(this.ability(), nil, "itemAbility", "<D>", "attributes"))
+        desc = table.merge(desc, Game():combineDescription(this.ability(), nil, "itemAbility", "<D>", "attributes"))
         if (this.charges() > 0) then
             table.insert(desc, colour.white("|n剩余次数：" .. this.charges()))
         end

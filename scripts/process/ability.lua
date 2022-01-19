@@ -1,6 +1,6 @@
 local process = Process("ability")
 
-process.onSetup(function(this)
+process:onStart(function(self)
     local u1 = Unit(TPL_UNIT.HeroFlameLord, Player(1), 500, -500, 66.6)
         .level(1)
         .reborn(0.5)
@@ -16,17 +16,17 @@ process.onSetup(function(this)
         .enchantWeapon("fire", "+=1")
         .punish(2000)
         .weight("+=10")
-    .bindItemTpl()
+        .bindItemTpl()
 
     u1.odds("hurtRebound", "+=100")
 
-    this.stage("u1", u1)
+    self:stage("u1", u1)
 
     u1.abilitySlot().push(TPL_ABILITY.AB1)
     u1.abilitySlot().push(TPL_ABILITY.AB2)
     u1.abilitySlot().push(TPL_ABILITY.King, 6)
 end)
 
-process.onDestroy(function(this)
-    this.stage("u1").destroy()
+process:onOver(function(self)
+    self:stage("u1").destroy()
 end)

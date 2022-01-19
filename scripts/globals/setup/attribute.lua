@@ -47,7 +47,7 @@ attribute.labelOpts = {
 -- [基础信息]
 ---@param this Ability|Item
 ---@param options {level:number}
-Game().defineDescription("attributes", function(this, options)
+Game():defineDescription("attributes", function(this, options)
     if (type(this.attributes) ~= "function") then
         return nil
     end

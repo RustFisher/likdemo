@@ -1,6 +1,6 @@
 local process = Process("team")
 
-process.onSetup(function(this)
+process:onStart(function(this)
 
     local t1 = Team("小小吃饭队")
         .nameSync(true)
@@ -23,7 +23,7 @@ process.onSetup(function(this)
 
 end)
 
-process.onDestroy(function(this)
+process:onOver(function(this)
     this.stage("t1").destroy()
     for _, u in ipairs(this.stage("us")) do
         u.destroy()

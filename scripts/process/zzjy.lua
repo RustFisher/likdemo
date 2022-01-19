@@ -1,6 +1,6 @@
 local process = Process("test")
 
-process.onSetup(function(this)
+process:onStart(function(this)
 
     local me = Unit(TPL_UNIT.Footman, Player(1), 0, 0, 270).abilityPoint(5)
     me.abilitySlot().push(TPL_ABILITY.Rebound, 1)
@@ -14,5 +14,5 @@ process.onSetup(function(this)
 
 end)
 
-process.onDestroy(function(this)
+process:onOver(function(this)
 end)

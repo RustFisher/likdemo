@@ -1,18 +1,18 @@
 -- 配置游戏 - 技能栏热键
 -- A S H 被默认命令占用建议不使用
-Game().abilityHotkey({ "Q", "W", "E", "R", "D", "F", "C", "V" })
+Game():abilityHotkey({ "Q", "W", "E", "R", "D", "F", "C", "V" })
 
-Game().abilityExp(99, 100, 1.00, 10000)
+Game():abilityExp(99, 100, 1.00, 10000)
 
 -- 定义技能描述体
 -- [基础信息]
 ---@param this Ability
 ---@param options {level:number}
-Game().defineDescription("abilityBase", function(this, options)
+Game():defineDescription("abilityBase", function(this, options)
     local desc = {}
     local lv = math.floor(options.level or this.level())
     local tt = this.targetType()
-    if (isObject(this, "Ability")) then
+    if (isClass(this, "Ability")) then
         if (tt ~= ABILITY_TARGET_TYPE.PAS) then
             table.insert(desc, this.name() .. ' - 等级 ' .. colour.gold(lv) .. '（' .. colour.gold(this.hotkey()) .. '）')
         else
@@ -39,7 +39,7 @@ end)
 
 -- [技能点信息]
 ---@param this Ability
-Game().defineDescription("abilityLvPoint", function(this, _)
+Game():defineDescription("abilityLvPoint", function(this, _)
     if (this.levelUpNeedPoint() > 0) then
         return { colour.hex('升级需要技能点: ' .. this.levelUpNeedPoint(), 'EFBA16') }
     end

@@ -1,6 +1,6 @@
 local process = Process("crash")
 
-process.onSetup(function(this)
+process:onStart(function(this)
 
     local types = {
         var = "变量清空",

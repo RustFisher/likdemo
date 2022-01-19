@@ -1,6 +1,6 @@
 local process = Process("dialog")
 
-process.onSetup(function(this)
+process:onStart(function(this)
 
     Dialog(
         "选择难度",

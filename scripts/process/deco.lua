@@ -1,6 +1,6 @@
 local process = Process("deco")
 
-process.onSetup(function(this)
+process:onStart(function(this)
 
     local ds = {}
     for _ = 1, 3, 1 do
@@ -24,7 +24,7 @@ process.onSetup(function(this)
 
 end)
 
-process.onDestroy(function(this)
+process:onOver(function(this)
     for d in ipairs(this.stage("ds")) do
         d.destroy()
     end

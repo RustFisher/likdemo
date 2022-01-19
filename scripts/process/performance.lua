@@ -1,6 +1,6 @@
 local process = Process("performance")
 
-process.onSetup(function(this)
+process:onStart(function(this)
 
     collectgarbage("collect")
     local x1 = os.clock()

@@ -1,6 +1,6 @@
 local process = Process("server")
 
-process.onSetup(function(this)
+process:onStart(function(this)
 
 
     Player(1).server().save("hello", 1)
@@ -17,7 +17,7 @@ process.onSetup(function(this)
     this.stage("t", t)
 end)
 
-process.onDestroy(function(this)
+process:onOver(function(this)
     this.stage("t").destroy()
 end)
 

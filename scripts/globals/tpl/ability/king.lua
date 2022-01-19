@@ -27,7 +27,7 @@ TPL_ABILITY.King = AbilityTpl()
         local atk = attackData.triggerAbility.prop("atk")
         local atkTarget = attackData.triggerAbility.prop("atkTarget")
         local atkTimer = attackData.triggerAbility.prop("atkTimer")
-        if (isObject(atkTimer, "Timer")) then
+        if (isClass(atkTimer, "Timer")) then
             atkTimer.destroy()
         end
         local curAtk = 0

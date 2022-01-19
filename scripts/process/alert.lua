@@ -1,6 +1,6 @@
 local process = Process("alert")
 
-process.onSetup(function(this)
+process:onStart(function(this)
 
     time.setInterval(3, function()
         Player(1).alert(string.rand(10))

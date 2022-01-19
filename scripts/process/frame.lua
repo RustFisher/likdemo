@@ -1,6 +1,6 @@
 local process = Process("frame")
 
-process.onSetup(function(this)
+process:onStart(function(this)
 
     local frame1 = FrameTextarea("pf1", FrameGameUI)
     frame1.relation(FRAME_ALIGN_RIGHT, FrameGameUI, FRAME_ALIGN_RIGHT, -0.002, 0)
@@ -32,7 +32,7 @@ process.onSetup(function(this)
 
 end)
 
-process.onDestroy(function(this)
+process:onOver(function(this)
     this.stage("frame1").show(false)
 end)
 

@@ -1,6 +1,6 @@
 local process = Process("timerAsync")
 
-process.onSetup(function(this)
+process:onStart(function(this)
 
     async.call(Player(1), function()
         local t1 = time.setInterval(1, function(curTimer)
@@ -18,7 +18,7 @@ process.onSetup(function(this)
 
 end)
 
-process.onDestroy(function(this)
+process:onOver(function(this)
     async.call(Player(1), function()
         this.stage("t1").destroy()
     end)

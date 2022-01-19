@@ -1,6 +1,6 @@
 local process = Process("timer")
 
-process.onSetup(function(this)
+process:onStart(function(this)
 
     local t1 = time.setTimeout(100, function(curTimer)
         curTimer.destroy()
@@ -37,7 +37,7 @@ process.onSetup(function(this)
 
 end)
 
-process.onDestroy(function(this)
+process:onOver(function(this)
     this.stage("t1").destroy()
     this.stage("t2").destroy()
 end)

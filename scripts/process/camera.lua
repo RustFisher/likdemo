@@ -1,6 +1,6 @@
 local process = Process("camera")
 
-process.onSetup(function(this)
+process:onStart(function(this)
 
     async.call(Player(1), function()
         Camera().shake(10, 0.2, 10)

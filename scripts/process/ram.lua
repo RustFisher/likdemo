@@ -1,6 +1,6 @@
 local process = Process("ram")
 
-process.onSetup(function(this)
+process:onStart(function(this)
 
     local r1 = function()
         collectgarbage("collect")
