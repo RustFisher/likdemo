@@ -1,17 +1,17 @@
-local process = Process("deco")
+local process = Process("destructable")
 
 process:onStart(function(this)
 
     local ds = {}
     for _ = 1, 3, 1 do
-        table.insert(ds, Deco("Cage", 0, 0, 0, 0, nil, nil))
+        table.insert(ds, Destructable("Cage", 0, 0, 0, 0, nil, nil))
     end
     this.stage("ds", ds)
 
     time.setInterval(0.05, function(curTimer)
         local _ds = this.stage("ds")
         if (_ds[1] == nil) then
-            curTimer.destroy()
+            destroy(curTimer)
             return
         end
         for _, d in ipairs(_ds) do
@@ -26,7 +26,7 @@ end)
 
 process:onOver(function(this)
     for d in ipairs(this.stage("ds")) do
-        d.destroy()
+        destroy(d)
     end
 
 end)
