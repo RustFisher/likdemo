@@ -12,7 +12,7 @@ Game():defineDescription("abilityBase", function(this, options)
     local desc = {}
     local lv = math.floor(options.level or this.level())
     local tt = this.targetType()
-    if (isClass(this, "Ability")) then
+    if (isClass(this, AbilityClass)) then
         if (tt ~= ABILITY_TARGET_TYPE.PAS) then
             table.insert(desc, this.name() .. ' - 等级 ' .. colour.gold(lv) .. '（' .. colour.gold(this.hotkey()) .. '）')
         else
