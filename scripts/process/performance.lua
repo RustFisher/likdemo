@@ -7,7 +7,7 @@ process:onStart(function(this)
     local r1 = collectgarbage("count")
 
     for _ = 1, 1000 do
-        Ability(TPL_ABILITY.AB1).destroy()
+        destroy(Ability(TPL_ABILITY.AB1))
     end
 
     print(string.format("Time: %.6f", os.clock() - x1))

@@ -21,14 +21,14 @@ TPL_ABILITY.King = AbilityTpl()
             damageType = { DAMAGE_TYPE.thunder }
         })
     end)
-    .prop("atk", 0)
+    :prop("atk", 0)
     .onUnitEvent(EVENT.Unit.Attack,
     function(attackData)
-        local atk = attackData.triggerAbility.prop("atk")
-        local atkTarget = attackData.triggerAbility.prop("atkTarget")
-        local atkTimer = attackData.triggerAbility.prop("atkTimer")
+        local atk = attackData.triggerAbility:prop("atk")
+        local atkTarget = attackData.triggerAbility:prop("atkTarget")
+        local atkTimer = attackData.triggerAbility:prop("atkTimer")
         if (isClass(atkTimer, TimerClass)) then
-            atkTimer.destroy()
+            destroy(atkTimer)
         end
         local curAtk = 0
         if (atkTarget == nil) then
@@ -37,8 +37,8 @@ TPL_ABILITY.King = AbilityTpl()
             curAtk = atk + 1
         end
         local diff = curAtk - atk
-        attackData.triggerAbility.prop("atk", curAtk)
-        attackData.triggerAbility.prop("atkTarget", attackData.targetUnit:id())
+        attackData.triggerAbility:prop("atk", curAtk)
+        attackData.triggerAbility:prop("atkTarget", attackData.targetUnit:id())
         if (diff ~= 0) then
             if (diff > 0) then
                 attackData.triggerUnit.crit("+=" .. (diff * 5))
@@ -47,16 +47,16 @@ TPL_ABILITY.King = AbilityTpl()
                 attackData.triggerUnit.crit("-=" .. (-diff * 5))
                 attackData.triggerUnit.odds("crit", "-=" .. (-diff * 2.5))
             end
-            attackData.triggerAbility.prop("atkTimer", time.setTimeout(3, function()
+            attackData.triggerAbility:prop("atkTimer", time.setTimeout(3, function()
                 if (attackData.triggerAbility.isDestroy() == false) then
-                    local a = attackData.triggerAbility.prop("atk")
+                    local a = attackData.triggerAbility:prop("atk")
                     if (a > 0) then
                         attackData.triggerUnit.crit("-=" .. (a * 5))
                         attackData.triggerUnit.odds("crit", "-=" .. (a * 2.5))
                     end
-                    attackData.triggerAbility.prop("atkTimer", NIL)
-                    attackData.triggerAbility.prop("atkTarget", NIL)
-                    attackData.triggerAbility.prop("atk", 0)
+                    attackData.triggerAbility:prop("atkTimer", NIL)
+                    attackData.triggerAbility:prop("atkTarget", NIL)
+                    attackData.triggerAbility:prop("atk", 0)
                 end
             end))
         end

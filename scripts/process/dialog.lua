@@ -11,7 +11,7 @@ process:onStart(function(this)
             { hotkey = "R", label = "破天荒难", value = 4 },
         },
         function(evtData)
-            evtData.triggerDialog.destroy()
+            destroy(evtData.triggerDialog)
             if (evtData.hotkey == "Q") then
                 --搞点事情
             elseif (evtData.hotkey == "W") then

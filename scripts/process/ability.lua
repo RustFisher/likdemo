@@ -28,5 +28,5 @@ process:onStart(function(self)
 end)
 
 process:onOver(function(self)
-    self:stage("u1").destroy()
+    destroy(self:stage("u1"))
 end)

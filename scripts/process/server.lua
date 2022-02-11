@@ -18,6 +18,6 @@ process:onStart(function(this)
 end)
 
 process:onOver(function(this)
-    this.stage("t").destroy()
+    destroy(this.stage("t"))
 end)
 

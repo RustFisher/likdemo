@@ -47,9 +47,9 @@ process:onStart(function(this)
 end)
 
 process:onOver(function(this)
-    this.stage("u1").destroy()
+    destroy(this.stage("u1"))
     local u2s = this.stage("u2s")
     for _, v in ipairs(u2s) do
-        v.destroy()
+        destroy(v)
     end
 end)

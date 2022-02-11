@@ -43,10 +43,7 @@ process:onStart(function(this)
         local frequency = tonumber(chatOptions[3]) or 0.5
         local number = tonumber(chatOptions[4]) or 1000
         local during = tonumber(chatOptions[5]) or 3
-        if (type == "" or table.includes({ "var", "unit", "ttg", "effect", "timer", "stop" }, type) == false) then
-            error('error:' .. type)
-            return
-        end
+        must(type ~= "" and table.includes({ "var", "unit", "ttg", "effect", "timer", "stop" }, type))
         if (type == 'stop') then
             running = false;
             return
@@ -87,7 +84,7 @@ process:onStart(function(this)
                     var_text[n] = nil
                 elseif (type == "unit") then
                     --测试创建单位，成绩：83万
-                    Team("enemy").unit(TPL_UNIT.Footman, x, y, 270).destroy(during)
+                    destroy(Team("enemy").unit(TPL_UNIT.Footman, x, y, 270), during)
                 elseif (type == "ttg") then
                     --测试模型漂浮字，成绩：50万 clear
                     ttg.word({
@@ -102,7 +99,7 @@ process:onStart(function(this)
                     })
                 elseif (type == "effect") then
                     --测试特效，成绩：100万 clear
-                    effect.xyz("DoomDeath", x, y, 0, during)
+                    destroy(Effect("DoomDeath", x, y, 0))
                 elseif (type == "timer") then
                     --测试计时器，成绩：150万 clear
                     --每个占用 0.1764KB 左右，上限不变则不再增加

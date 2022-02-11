@@ -41,8 +41,8 @@ process:onStart(function(this)
 end)
 
 process:onOver(function(this)
-    this.stage("u1").destroy()
+    destroy(this.stage("u1"))
     for _, it in ipairs(this.stage("its")) do
-        it.destroy()
+        destroy(it)
     end
 end)

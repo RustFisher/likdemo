@@ -15,9 +15,9 @@ _assets_model("buff/InvinciblePurpleBall", "InvinciblePurpleBall")
 _assets_model("buff/IonCentrifugalCircle", "IonCentrifugalCircle")
 _assets_model("buff/Liberty", "Liberty")
 
-_assets_ui("wilulla_set")
-_assets_ui("wilulla_debug") --DEBUG次之
-_assets_ui("wilulla_cursor") --指针置顶
+_assets_ui("ralarvo_set")
+_assets_ui("ralarvo_debug") --DEBUG次之
+_assets_ui("ralarvo_cursor") --指针置顶
 
 _assets_icon("ability\\red\\DeathKnightSpellDeflection", "AB1")
 _assets_icon("ability\\blue\\AbsorbMagic", "AB2")

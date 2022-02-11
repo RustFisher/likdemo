@@ -3,7 +3,7 @@ local process = Process("timer")
 process:onStart(function(this)
 
     local t1 = time.setTimeout(100, function(curTimer)
-        curTimer.destroy()
+        destroy(curTimer)
     end)
     this.stage("t1", t1)
 
@@ -38,7 +38,7 @@ process:onStart(function(this)
 end)
 
 process:onOver(function(this)
-    this.stage("t1").destroy()
-    this.stage("t2").destroy()
+    destroy(this.stage("t1"))
+    destroy(this.stage("t2"))
 end)
 

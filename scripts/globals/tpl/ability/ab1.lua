@@ -24,11 +24,11 @@ TPL_ABILITY.AB1 = AbilityTpl()
         local ftp = 1
         time.setInterval(ftp, function(curTimer)
             if (not effectiveData.triggerUnit.isAbilityKeepCasting()) then
-                curTimer.destroy()
+                destroy(curTimer)
                 return
             end
             effectiveData.triggerAbility.exp("+=10")
             effectiveData.triggerUnit.abilityPoint("+=1")
-            effect.xyz("slash/Red_swing", effectiveData.targetX, effectiveData.targetY, effectiveData.targetZ, 0)
+            destroy(Effect("slash/Red_swing", effectiveData.targetX, effectiveData.targetY, effectiveData.targetZ))
         end)
     end)

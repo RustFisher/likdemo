@@ -20,10 +20,10 @@ end)
 
 process:onOver(function(this)
     async.call(Player(1), function()
-        this.stage("t1").destroy()
+        destroy(this.stage("t1"))
     end)
     async.call(Player(2), function()
-        this.stage("t2").destroy()
+        destroy(this.stage("t2"))
     end)
 end)
 
