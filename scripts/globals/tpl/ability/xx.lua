@@ -17,8 +17,7 @@ TPL_ABILITY.XX = AbilityTpl()
     .onEvent(EVENT.Ability.Effective,
     function(effectiveData)
         local dam = effectiveData.triggerUnit.attack() * effectiveData.triggerAbility.level()
-        local un = group.rand({
-            key = "Unit",
+        local un = Group("Unit"):rand({
             x = effectiveData.triggerUnit.x(),
             y = effectiveData.triggerUnit.y(),
             radius = 2000,

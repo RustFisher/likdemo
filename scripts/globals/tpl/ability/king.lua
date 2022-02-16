@@ -48,7 +48,7 @@ TPL_ABILITY.King = AbilityTpl()
                 attackData.triggerUnit.odds("crit", "-=" .. (-diff * 2.5))
             end
             attackData.triggerAbility:prop("atkTimer", time.setTimeout(3, function()
-                if (attackData.triggerAbility.isDestroy() == false) then
+                if (isDestroy(attackData.triggerAbility) == false) then
                     local a = attackData.triggerAbility:prop("atk")
                     if (a > 0) then
                         attackData.triggerUnit.crit("-=" .. (a * 5))
