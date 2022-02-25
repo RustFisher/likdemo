@@ -17,7 +17,7 @@ Game():command("^-d [-+=]%d+$", function(evtData)
         v = math.abs(tonumber(v))
         if (v > 0) then
             local val = math.abs(v)
-            async.call(evtData.triggerPlayer, function()
+            async(evtData.triggerPlayer, function()
                 if (first == "+") then
                     Camera().distance("+=" .. val)
                 elseif (first == "-") then
