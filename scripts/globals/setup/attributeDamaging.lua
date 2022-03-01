@@ -30,6 +30,7 @@ attribute.damaging("breakArmor", function(options)
     if (true == options.targetUnit.isInvulnerable()) then
         if (ignore.invincible == false) then
             --- 触发无敌抵御事件
+            options.damage = 0
             event.trigger(options.sourceUnit, EVENT.Unit.ImmuneInvincible, { triggerUnit = options.targetUnit, sourceUnit = options.sourceUnit })
             return
         end
@@ -38,17 +39,17 @@ end)
 
 --- 自身攻击暴击
 attribute.damaging("crit", function(options)
-    local approveCrit = (options.sourceUnit ~= nil and (options.damageSrc == DAMAGE_SRC.attack or options.damageSrc == DAMAGE_SRC.ability))
-    options.isCrit = false
-    if (approveCrit) then
+    local approve = (options.sourceUnit ~= nil and (options.damageSrc == DAMAGE_SRC.attack or options.damageSrc == DAMAGE_SRC.ability))
+    if (approve) then
         local crit = options.sourceUnit:crit()
         if (crit > 0) then
             local odds = options.sourceUnit:odds("crit") - options.targetUnit:resistance("crit")
             if (odds > math.rand(1, 100)) then
                 options.damage = options.damage * (1 + crit * 0.01)
-                options.isCrit = true
                 --- 触发时自动无视回避
                 options.avoid = 0
+                --- 触发暴击事件
+                ability.crit({ sourceUnit = options.sourceUnit, targetUnit = options.targetUnit })
             end
         end
     end
@@ -56,10 +57,11 @@ end)
 
 --- 回避
 attribute.damaging("avoid", function(options)
-    local approveAvoid = (options.avoid > 0 and (options.damageSrc == DAMAGE_SRC.attack or options.damageSrc == DAMAGE_SRC.rebound))
-    if (approveAvoid) then
+    local approve = (options.avoid > 0 and (options.damageSrc == DAMAGE_SRC.attack or options.damageSrc == DAMAGE_SRC.rebound))
+    if (approve) then
         if (options.avoid > math.rand(1, 100)) then
             -- 触发回避事件
+            options.damage = 0
             event.trigger(options.targetUnit, EVENT.Unit.Avoid, { triggerUnit = options.targetUnit, sourceUnit = options.sourceUnit })
             event.trigger(options.sourceUnit, EVENT.Unit.Be.Avoid, { triggerUnit = options.sourceUnit, targetUnit = options.targetUnit })
             return
@@ -67,104 +69,129 @@ attribute.damaging("avoid", function(options)
     end
 end)
 
+--- 伤害加深(%)
+attribute.damaging("damageIncrease", function(options)
+    local approve = (options.sourceUnit ~= nil)
+    if (approve) then
+        local damageIncrease = options.sourceUnit.damageIncrease()
+        if (damageIncrease > 0) then
+            options.damage = options.damage * (1 + damageIncrease * 0.01)
+        end
+    end
+end)
+
+--- 受伤加深(%)
+attribute.damaging("hurtIncrease", function(options)
+    local hurtIncrease = options.targetUnit.hurtIncrease()
+    if (hurtIncrease > 0) then
+        options.damage = options.damage * (1 + hurtIncrease * 0.01)
+    end
+end)
+
+--- 反伤
+attribute.damaging("hurtRebound", function(options)
+    -- 抵抗
+    local approve = (options.sourceUnit ~= nil and options.damageSrc == DAMAGE_SRC.rebound)
+    if (approve) then
+        local resistance = options.sourceUnit.resistance("hurtRebound")
+        if (resistance > 0) then
+            options.damage = math.max(0, options.damage * (1 - resistance * 0.01))
+            if (options.damage < 1) then
+                options.damage = 0
+                return
+            end
+        end
+    end
+    -- 反射
+    approve = (options.sourceUnit ~= nil and (options.damageSrc == DAMAGE_SRC.attack or options.damageSrc == DAMAGE_SRC.ability))
+    if (approve) then
+        local hurtRebound = options.targetUnit:hurtRebound()
+        local odds = options.targetUnit:odds("hurtRebound")
+        if (hurtRebound > 0 and odds > math.rand(1, 100)) then
+            local dmgRebound = math.round(options.damage * hurtRebound * 0.01, 3)
+            if (dmgRebound >= 1.000) then
+                local damagedArrived = function()
+                    --- 触发反伤事件
+                    ability.damage(options.targetUnit, options.sourceUnit, dmgRebound, DAMAGE_SRC.rebound, options.damageType)
+                end
+                if (options.damageSrc == DAMAGE_SRC.attack) then
+                    -- 攻击情况
+                    if (options.sourceUnit:isMelee()) then
+                        damagedArrived()
+                    else
+                        local am = options.sourceUnit:attackMode()
+                        local mode = am:mode()
+                        if (mode == "lightning") then
+                            local lDur = 0.3
+                            local lDelay = lDur * 0.6
+                            ability.lightning(
+                                am:lightningType(),
+                                options.targetUnit:x(), options.targetUnit:y(), options.targetUnit:h(),
+                                options.sourceUnit:x(), options.sourceUnit:y(), options.sourceUnit:h(),
+                                lDur
+                            )
+                            time.setTimeout(lDelay, function()
+                                damagedArrived()
+                            end)
+                        elseif (mode == "missile") then
+                            ability.missile({
+                                modelAlias = am:missileModel(),
+                                hover = math.rand(am:hover() - 5, am:hover() + 5),
+                                sourceUnit = options.targetUnit,
+                                targetUnit = options.sourceUnit,
+                                speed = am:speed(),
+                                height = am:height() / 4,
+                                acceleration = am:acceleration(),
+                                onEnd = function() damagedArrived() end,
+                            })
+                        end
+                    end
+                elseif (options.damageSrc == DAMAGE_SRC.ability) then
+                    -- 技能情况
+                    damagedArrived()
+                end
+            end
+        end
+    end
+end)
+
+--- 防御
+attribute.damaging("defend", function(options)
+    if (options.defend < 0) then
+        options.damage = options.damage + math.abs(options.defend)
+    elseif (options.defend > 0) then
+        options.damage = options.damage - options.defend
+        if (options.damage < 1) then
+            -- 触发防御完全抵消事件
+            options.damage = 0
+            event.trigger(options.targetUnit, EVENT.Unit.ImmuneDefend, { triggerUnit = options.targetUnit, sourceUnit = options.sourceUnit })
+            return
+        end
+    end
+end)
+
+--- 减伤:比例
+attribute.damaging("defend", function(options)
+    local hurtReduction = options.targetUnit.hurtReduction()
+    if (hurtReduction > 0) then
+        options.damage = options.damage * (1 - hurtReduction * 0.01)
+        if (options.damage < 1) then
+            -- 触发减伤完全抵消事件
+            options.damage = 0
+            event.trigger(options.targetUnit, EVENT.Unit.ImmuneReduction, { triggerUnit = options.targetUnit, sourceUnit = options.sourceUnit })
+            return
+        end
+    end
+end)
+
+
 -- 允许判定
-local approveDamageAmplify = (sourceUnit ~= nil)
-local approveReboundHurtResistance = (sourceUnit ~= nil and damageSrc == DAMAGE_SRC.rebound)
-local approveReboundAnti = (sourceUnit ~= nil and (damageSrc == DAMAGE_SRC.attack or damageSrc == DAMAGE_SRC.ability))
 local approveHPSuck = (sourceUnit ~= nil and damageSrc == DAMAGE_SRC.attack)
 local approveHPSuckSpell = (sourceUnit ~= nil and damageSrc == DAMAGE_SRC.ability)
 local approveMPSuck = (sourceUnit ~= nil and damageSrc == DAMAGE_SRC.attack and sourceUnit.mp() > 0 and targetUnit.mpCur() > 0)
 local approveMPSuckSpell = (sourceUnit ~= nil and damageSrc == DAMAGE_SRC.ability and sourceUnit.mp() > 0 and targetUnit.mpCur() > 0)
 local approvePunish = (targetUnit.punish() > 0 and targetUnit.isPunishing() == false)
 
-
--- [处理]伤害加深(%)
-if (approveDamageAmplify) then
-    local damageIncrease = sourceUnit.damageIncrease()
-    if (damageIncrease > 0) then
-        dmg = dmg * (1 + damageIncrease * 0.01)
-    end
-end
--- [处理]受伤加深(%)
-local hurtIncrease = targetUnit.hurtIncrease()
-if (hurtIncrease > 0) then
-    dmg = dmg * (1 + hurtIncrease * 0.01)
-end
--- [处理]反伤抵抗
-if (approveReboundHurtResistance) then
-    local resistance = sourceUnit.resistance("hurtRebound")
-    if (resistance > 0) then
-        dmg = math.max(0, dmg * (1 - resistance * 0.01))
-        if (dmg < 1) then return end
-    end
-end
--- [处理]反伤
-if (approveReboundAnti) then
-    local hurtRebound = targetUnit:hurtRebound()
-    local odds = targetUnit:odds("hurtRebound")
-    if (hurtRebound > 0 and odds > math.rand(1, 100)) then
-        local dmgRebound = math.round(dmg * hurtRebound * 0.01, 3)
-        if (dmgRebound >= 1.000) then
-
-            local damagedArrived = function()
-                --- 触发反伤事件
-                ability.damage(targetUnit, sourceUnit, dmgRebound, DAMAGE_SRC.rebound, damageType)
-            end
-            if (damageSrc == DAMAGE_SRC.attack) then
-                -- 攻击下
-                if (sourceUnit:isMelee()) then
-                    damagedArrived()
-                else
-                    local am = sourceUnit:attackMode()
-                    local mode = am:mode()
-                    if (mode == "lightning") then
-                        local lDur = 0.3
-                        local lDelay = lDur * 0.6
-                        ability.lightning(am:lightningType(), targetUnit:x(), targetUnit:y(), targetUnit:h(), sourceUnit:x(), sourceUnit:y(), sourceUnit:h(), lDur)
-                        time.setTimeout(lDelay, function()
-                            damagedArrived()
-                        end)
-                    elseif (mode == "missile") then
-                        local options = {
-                            modelAlias = am:missileModel(),
-                            hover = math.rand(am:hover() - 5, am:hover() + 5),
-                            sourceUnit = targetUnit,
-                            targetUnit = sourceUnit,
-                            speed = am:speed(),
-                            height = am:height() / 4,
-                            acceleration = am:acceleration(),
-                            onEnd = function() damagedArrived() end,
-                        }
-                        ability.missile(options)
-                    end
-                end
-            elseif (damageSrc == DAMAGE_SRC.ability) then
-                -- 技能下
-                damagedArrived()
-            end
-        end
-    end
-end
--- [处理]防御
-local defend = targetUnit.defend()
-if (defend < 0) then
-    dmg = dmg + math.abs(defend)
-elseif (defend > 0 and ignore.defend == false) then
-    dmg = dmg - defend
-    if (dmg < 1) then
-        event.trigger(targetUnit, EVENT.Unit.ImmuneDefend, { triggerUnit = targetUnit, sourceUnit = sourceUnit })
-        return
-    end
-end
--- [处理]减伤:比例
-local hurtReduction = targetUnit.hurtReduction()
-if (hurtReduction > 0) then
-    dmg = dmg * (1 - hurtReduction * 0.01)
-    if (dmg < 1) then
-        event.trigger(targetUnit, EVENT.Unit.ImmuneReduction, { triggerUnit = targetUnit, sourceUnit = sourceUnit })
-        return
-    end
-end
 -- [处理]攻击吸血
 if (approveHPSuck) then
     local percent = sourceUnit.hpSuckAttack() - targetUnit.resistance("hpSuckAttack")
