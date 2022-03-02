@@ -14,7 +14,6 @@ DAMAGE_TYPE.poison = nil
 attribute.enchant("fire", "火", {
     strengthen = 0,
     resistance = 0,
-    appendDuration = 3,
     append = {
         { attach = 'origin', effect = 'BreathOfFireDamage' },
         { attach = 'left hand', effect = 'BreathOfFireDamage' },
@@ -41,7 +40,6 @@ attribute.enchant("poison", "毒")
 attribute.labelOpts = {
     attack = "攻击",
     defend = "防御",
-    enchantWeapon_water = "水武装",
 }
 
 -- 定义智能属性描述体

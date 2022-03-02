@@ -112,7 +112,14 @@ attribute.damaging("hurtRebound", function(options)
             if (dmgRebound >= 1.000) then
                 local damagedArrived = function()
                     --- 触发反伤事件
-                    ability.damage(options.targetUnit, options.sourceUnit, dmgRebound, DAMAGE_SRC.rebound, options.damageType)
+                    ability.damage({
+                        sourceUnit = options.targetUnit,
+                        targetUnit = options.sourceUnit,
+                        damage = dmgRebound,
+                        damageSrc = DAMAGE_SRC.rebound,
+                        damageType = options.damageType,
+                        damageTypeLevel = 0,
+                    })
                 end
                 if (options.damageSrc == DAMAGE_SRC.attack) then
                     -- 攻击情况
@@ -260,71 +267,32 @@ attribute.damaging("punishCur", function(options)
     end
 end)
 
-
--- [处理]伤害类型:占比
-local damageTypeRatio = {}
-local damageTypeOcc = 0
-local enchantType = {}
-local ratio = {}
-if (damageSrc == DAMAGE_SRC.attack and sourceUnit ~= nil) then
-    -- 附加攻击形态的伤害类型
-    attribute.conf("enchant").forEach(function(ek, _)
-        local ew = sourceUnit.enchantWeapon(ek)
-        if (ew > 0) then
-            damageTypeOcc = damageTypeOcc + ew
-            if (ratio[ek] == nil) then
-                ratio[ek] = 0
-            end
-            ratio[ek] = ratio[ek] + ew
-            table.insert(enchantType, ek)
-        end
-    end)
-elseif (type(damageType) == "table" and #damageType > 0) then
-    for _, d in ipairs(damageType) do
-        if (type(d) == "table" and d.value) then
-            damageTypeOcc = damageTypeOcc + 1
-            if (ratio[d.value] == nil) then
-                ratio[d.value] = 0
-            end
-            ratio[d.value] = ratio[d.value] + 1
-            table.insert(enchantType, d.value)
-        end
-    end
-end
-if (damageTypeOcc == 0) then
-    damageTypeOcc = 1
-    ratio[DAMAGE_TYPE.common.value] = 1
-end
-local dtu = 1 / damageTypeOcc
-for _, dt in ipairs(DAMAGE_TYPE_KEYS) do
-    if (ratio[dt] == nil) then
-        ratio[dt] = 0
-    end
-    damageTypeRatio[dt] = dtu * ratio[dt]
-end
-local lastDmg = dmg
--- [处理]附魔类型:加成|抵抗|上身
-for _, et in ipairs(enchantType) do
+--- 附魔加成|抵抗
+attribute.damaging("enchant", function(options)
     local addition = 0
-    if (sourceUnit ~= nil) then
-        local amplify = sourceUnit.enchant(et)
+    if (options.sourceUnit ~= nil) then
+        local amplify = options.sourceUnit:enchant(options.damageType.value)
         if (amplify ~= 0) then
             addition = addition + amplify * 0.01
         end
     end
-    local resistance = targetUnit.enchantResistance(et)
+    local resistance = options.targetUnit:enchantResistance(options.damageType.value)
     if (resistance ~= 0) then
         addition = addition - resistance * 0.01
     end
-    local d = dmg * addition * damageTypeRatio[et]
     --- 触发附魔事件
-    event.trigger(targetUnit, EVENT.Unit.Enchant, {
-        triggerUnit = sourceUnit, targetUnit = targetUnit,
-        enchantType = et,
-        radio = damageTypeRatio[et], damage = d, addition = addition
+    event.trigger(options.targetUnit, EVENT.Unit.Enchant, {
+        triggerUnit = options.sourceUnit,
+        targetUnit = options.targetUnit,
+        enchantType = options.damageType,
+        addition = addition
     })
-    lastDmg = lastDmg + d
-end
-if (#enchantType > 0) then
-    attribute.enchantAppend(options.targetUnit, options.sourceUnit, enchantType)
-end
+    options.damage = options.damage * (1 + addition)
+end)
+
+-- 附魔附着
+attribute.damaging("enchantAppend", function(options)
+    if (options.damageType ~= DAMAGE_TYPE.common) then
+        attribute.enchantAppend(options.sourceUnit, options.targetUnit, options.damageType, options.damageTypeLevel)
+    end
+end)

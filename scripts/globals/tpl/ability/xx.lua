@@ -16,8 +16,8 @@ TPL_ABILITY.XX = AbilityTpl()
     })
     .onEvent(EVENT.Ability.Effective,
     function(effectiveData)
-        local dam = effectiveData.triggerUnit.attack() * effectiveData.triggerAbility.level()
-        local un = Group("Unit"):rand({
+        local dmg = effectiveData.triggerUnit.attack() * effectiveData.triggerAbility.level()
+        local us = Group("Unit"):rand({
             x = effectiveData.triggerUnit.x(),
             y = effectiveData.triggerUnit.y(),
             radius = 2000,
@@ -27,8 +27,8 @@ TPL_ABILITY.XX = AbilityTpl()
                 return enumUnit.isAlive() and effectiveData.triggerUnit.isEnemy(enumUnit.owner())
             end
         })
-        if (#un > 0) then
-            for _, u in ipairs(un) do
+        if (#us > 0) then
+            for _, u in ipairs(us) do
                 ability.missile({
                     modelAlias = "FireBallMissile", --[必须]虚拟箭矢的特效
                     animateScale = 1.00, --虚拟箭矢的动画速度
@@ -40,7 +40,15 @@ TPL_ABILITY.XX = AbilityTpl()
                     sourceUnit = effectiveData.triggerUnit, --[必须]伤害来源
                     targetUnit = u,
                     onEnd = function(sou, tar)
-                        ability.damage(sou, tar, dam, DAMAGE_SRC.ability, { DAMAGE_TYPE.fire }, { BREAK_ARMOR.defend })
+                        ability.damage({
+                            sourceUnit = sou,
+                            targetUnit = tar,
+                            damage = dmg,
+                            damageSrc = DAMAGE_SRC.ability,
+                            damageType = options.fire,
+                            damageTypeLevel = 0,
+                            breakArmor = { BREAK_ARMOR.defend },
+                        })
                         return true
                     end,
                 })

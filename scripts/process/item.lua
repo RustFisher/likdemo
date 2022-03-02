@@ -14,8 +14,6 @@ process:onStart(function(this)
         :crit(10):odds("crit", 10)
         :hpSuckAttack("+=10")
         :mpSuckAttack("+=10")
-        :enchantWeapon("grass", "+=1")
-        :enchantWeapon("fire", "+=1")
         :punish(2000)
         :weight("+=10")
 
