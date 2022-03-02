@@ -27,7 +27,7 @@ attribute.damaging("breakArmor", function(options)
         options.avoid = 0
     end
     --- 单位是否无视无敌
-    if (true == options.targetUnit.isInvulnerable()) then
+    if (true == options.targetUnit:isInvulnerable()) then
         if (ignore.invincible == false) then
             --- 触发无敌抵御事件
             options.damage = 0
@@ -73,7 +73,7 @@ end)
 attribute.damaging("damageIncrease", function(options)
     local approve = (options.sourceUnit ~= nil)
     if (approve) then
-        local damageIncrease = options.sourceUnit.damageIncrease()
+        local damageIncrease = options.sourceUnit:damageIncrease()
         if (damageIncrease > 0) then
             options.damage = options.damage * (1 + damageIncrease * 0.01)
         end
@@ -82,7 +82,7 @@ end)
 
 --- 受伤加深(%)
 attribute.damaging("hurtIncrease", function(options)
-    local hurtIncrease = options.targetUnit.hurtIncrease()
+    local hurtIncrease = options.targetUnit:hurtIncrease()
     if (hurtIncrease > 0) then
         options.damage = options.damage * (1 + hurtIncrease * 0.01)
     end
@@ -93,7 +93,7 @@ attribute.damaging("hurtRebound", function(options)
     -- 抵抗
     local approve = (options.sourceUnit ~= nil and options.damageSrc == DAMAGE_SRC.rebound)
     if (approve) then
-        local resistance = options.sourceUnit.resistance("hurtRebound")
+        local resistance = options.sourceUnit:resistance("hurtRebound")
         if (resistance > 0) then
             options.damage = math.max(0, options.damage * (1 - resistance * 0.01))
             if (options.damage < 1) then
@@ -172,7 +172,7 @@ end)
 
 --- 减伤:比例
 attribute.damaging("hurtReduction", function(options)
-    local hurtReduction = options.targetUnit.hurtReduction()
+    local hurtReduction = options.targetUnit:hurtReduction()
     if (hurtReduction > 0) then
         options.damage = options.damage * (1 - hurtReduction * 0.01)
         if (options.damage < 1) then
@@ -188,10 +188,10 @@ end)
 attribute.damaging("hpSuckAttack", function(options)
     local approve = (options.sourceUnit ~= nil and options.damageSrc == DAMAGE_SRC.attack)
     if (approve) then
-        local percent = options.sourceUnit.hpSuckAttack() - options.targetUnit.resistance("hpSuckAttack")
+        local percent = options.sourceUnit:hpSuckAttack() - options.targetUnit:resistance("hpSuckAttack")
         local val = options.damage * percent * 0.01
         if (percent > 0 and val > 0) then
-            options.sourceUnit.hpCur("+=" .. val)
+            options.sourceUnit:hpCur("+=" .. val)
             --- 触发吸血事件
             event.trigger(options.sourceUnit, EVENT.Unit.HPSuckAttack, { triggerUnit = options.sourceUnit, targetUnit = options.targetUnit, value = val, percent = percent })
             event.trigger(options.targetUnit, EVENT.Unit.Be.HPSuckAttack, { triggerUnit = options.targetUnit, sourceUnit = options.sourceUnit, value = val, percent = percent })
