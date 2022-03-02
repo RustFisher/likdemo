@@ -171,7 +171,7 @@ attribute.damaging("defend", function(options)
 end)
 
 --- 减伤:比例
-attribute.damaging("defend", function(options)
+attribute.damaging("hurtReduction", function(options)
     local hurtReduction = options.targetUnit.hurtReduction()
     if (hurtReduction > 0) then
         options.damage = options.damage * (1 - hurtReduction * 0.01)
@@ -185,7 +185,7 @@ attribute.damaging("defend", function(options)
 end)
 
 --- 攻击吸血
-attribute.damaging("HPSuck", function(options)
+attribute.damaging("hpSuckAttack", function(options)
     local approve = (options.sourceUnit ~= nil and options.damageSrc == DAMAGE_SRC.attack)
     if (approve) then
         local percent = options.sourceUnit.hpSuckAttack() - options.targetUnit.resistance("hpSuckAttack")
@@ -194,63 +194,73 @@ attribute.damaging("HPSuck", function(options)
             options.sourceUnit.hpCur("+=" .. val)
             --- 触发吸血事件
             event.trigger(options.sourceUnit, EVENT.Unit.HPSuckAttack, { triggerUnit = options.sourceUnit, targetUnit = options.targetUnit, value = val, percent = percent })
-            event.trigger(options.sourceUnit, EVENT.Unit.Be.HPSuckAttack, { triggerUnit = options.targetUnit, sourceUnit = options.sourceUnit, value = val, percent = percent })
+            event.trigger(options.targetUnit, EVENT.Unit.Be.HPSuckAttack, { triggerUnit = options.targetUnit, sourceUnit = options.sourceUnit, value = val, percent = percent })
         end
     end
 end)
 
-
--- 允许判定
-local approveHPSuckSpell = (sourceUnit ~= nil and damageSrc == DAMAGE_SRC.ability)
-local approveMPSuck = (sourceUnit ~= nil and damageSrc == DAMAGE_SRC.attack and sourceUnit.mp() > 0 and targetUnit.mpCur() > 0)
-local approveMPSuckSpell = (sourceUnit ~= nil and damageSrc == DAMAGE_SRC.ability and sourceUnit.mp() > 0 and targetUnit.mpCur() > 0)
-local approvePunish = (targetUnit.punish() > 0 and targetUnit.isPunishing() == false)
-
--- [处理]技能吸血
-if (approveHPSuckSpell) then
-    local percent = sourceUnit.hpSuckAbility() - targetUnit.resistance("hpSuckAbility")
-    if (percent > 0) then
-        local val = dmg * percent * 0.01
-        sourceUnit.hpCur("+=" .. val)
-        --- 触发技能吸血事件
-        event.trigger(sourceUnit, EVENT.Unit.HPSuckAbility, { triggerUnit = sourceUnit, targetUnit = targetUnit, value = val, percent = percent })
-        event.trigger(sourceUnit, EVENT.Unit.Be.HPSuckAbility, { triggerUnit = targetUnit, sourceUnit = sourceUnit, value = val, percent = percent })
-    end
-end
--- [处理]攻击吸魔;吸魔会根据伤害，扣减目标的魔法值，再据百分比增加自己的魔法值;目标魔法值不足 1 从而吸收时，则无法吸取
-if (approveMPSuck) then
-    local percent = sourceUnit.mpSuckAttack() - targetUnit.resistance("mpSuckAttack")
-    if (percent > 0) then
-        local mana = math.min(targetUnit.mp(), dmg)
-        local val = mana * percent * 0.01
-        if (val > 1) then
-            targetUnit.mpCur("-=" .. val)
-            sourceUnit.mpCur("+=" .. val)
-            --- 触发吸魔事件
-            event.trigger(sourceUnit, EVENT.Unit.MPSuckAttack, { triggerUnit = sourceUnit, targetUnit = targetUnit, value = val, percent = percent })
-            event.trigger(sourceUnit, EVENT.Unit.Be.MPSuckAttack, { triggerUnit = targetUnit, sourceUnit = sourceUnit, value = val, percent = percent })
+--- 技能吸血
+attribute.damaging("hpSuckAbility", function(options)
+    local approve = (options.sourceUnit ~= nil and options.damageSrc == DAMAGE_SRC.ability)
+    if (approve) then
+        local percent = options.sourceUnit:hpSuckAbility() - options.targetUnit:resistance("hpSuckAbility")
+        local val = options.damage * percent * 0.01
+        if (percent > 0 and val > 0) then
+            options.sourceUnit:hpCur("+=" .. val)
+            --- 触发技能吸血事件
+            event.trigger(options.sourceUnit, EVENT.Unit.HPSuckAbility, { triggerUnit = options.sourceUnit, targetUnit = options.targetUnit, value = val, percent = percent })
+            event.trigger(options.targetUnit, EVENT.Unit.Be.HPSuckAbility, { triggerUnit = options.targetUnit, sourceUnit = options.sourceUnit, value = val, percent = percent })
         end
     end
-end
--- [处理]技能吸魔;吸魔会根据伤害，扣减目标的魔法值，再据百分比增加自己的魔法值;目标魔法值不足 1 从而吸收时，则无法吸取
-if (approveMPSuckSpell) then
-    local percent = sourceUnit.mpSuckAbility() - targetUnit.resistance("mpSuckAbility")
-    if (percent > 0) then
-        local mana = math.min(targetUnit.mp(), dmg)
-        local val = mana * percent * 0.01
-        if (val > 1) then
-            targetUnit.mpCur("-=" .. val)
-            sourceUnit.mpCur("+=" .. val)
-            --- 触发技能吸魔事件
-            event.trigger(sourceUnit, EVENT.Unit.MPSuckAbility, { triggerUnit = sourceUnit, targetUnit = targetUnit, value = val, percent = percent })
-            event.trigger(sourceUnit, EVENT.Unit.Be.MPSuckAbility, { triggerUnit = targetUnit, sourceUnit = sourceUnit, value = val, percent = percent })
+end)
+
+--- 攻击吸魔;吸魔会根据伤害，扣减目标的魔法值，再据百分比增加自己的魔法值;目标魔法值不足 1 从而吸收时，则无法吸取
+attribute.damaging("mpSuckAttack", function(options)
+    local approve = (options.sourceUnit ~= nil and options.damageSrc == DAMAGE_SRC.attack and options.sourceUnit:mp() > 0 and options.targetUnit:mpCur() > 0)
+    if (approve) then
+        local percent = options.sourceUnit:mpSuckAttack() - options.targetUnit:resistance("mpSuckAttack")
+        if (percent > 0) then
+            local mana = math.min(options.targetUnit:mp(), options.damage)
+            local val = mana * percent * 0.01
+            if (val > 1) then
+                options.targetUnit:mpCur("-=" .. val)
+                options.sourceUnit:mpCur("+=" .. val)
+                --- 触发吸魔事件
+                event.trigger(options.sourceUnit, EVENT.Unit.MPSuckAttack, { triggerUnit = options.sourceUnit, targetUnit = options.targetUnit, value = val, percent = percent })
+                event.trigger(options.targetUnit, EVENT.Unit.Be.MPSuckAttack, { triggerUnit = options.targetUnit, sourceUnit = options.sourceUnit, value = val, percent = percent })
+            end
         end
     end
-end
--- [处理]硬直
-if (approvePunish) then
-    targetUnit.punishCur("-=" .. dmg)
-end
+end)
+
+--- 技能吸魔;吸魔会根据伤害，扣减目标的魔法值，再据百分比增加自己的魔法值;目标魔法值不足 1 从而吸收时，则无法吸取
+attribute.damaging("mpSuckAbility", function(options)
+    local approve = (options.sourceUnit ~= nil and options.damageSrc == DAMAGE_SRC.ability and options.sourceUnit.mp() > 0 and options.targetUnit.mpCur() > 0)
+    if (approve) then
+        local percent = options.sourceUnit:mpSuckAbility() - options.targetUnit:resistance("mpSuckAbility")
+        if (percent > 0) then
+            local mana = math.min(options.targetUnit:mp(), options.damage)
+            local val = mana * percent * 0.01
+            if (val > 1) then
+                options.targetUnit:mpCur("-=" .. val)
+                options.sourceUnit:mpCur("+=" .. val)
+                --- 触发技能吸魔事件
+                event.trigger(options.sourceUnit, EVENT.Unit.MPSuckAbility, { triggerUnit = options.sourceUnit, targetUnit = options.targetUnit, value = val, percent = percent })
+                event.trigger(options.targetUnit, EVENT.Unit.Be.MPSuckAbility, { triggerUnit = options.targetUnit, sourceUnit = options.sourceUnit, value = val, percent = percent })
+            end
+        end
+    end
+end)
+
+--- 硬直
+attribute.damaging("punishCur", function(options)
+    local approve = (options.targetUnit:punish() > 0 and options.targetUnit:isPunishing() == false)
+    if (approve) then
+        options.targetUnit:punishCur("-=" .. options.damage)
+    end
+end)
+
+
 -- [处理]伤害类型:占比
 local damageTypeRatio = {}
 local damageTypeOcc = 0
