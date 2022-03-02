@@ -184,25 +184,28 @@ attribute.damaging("defend", function(options)
     end
 end)
 
+--- 攻击吸血
+attribute.damaging("HPSuck", function(options)
+    local approve = (options.sourceUnit ~= nil and options.damageSrc == DAMAGE_SRC.attack)
+    if (approve) then
+        local percent = options.sourceUnit.hpSuckAttack() - options.targetUnit.resistance("hpSuckAttack")
+        local val = options.damage * percent * 0.01
+        if (percent > 0 and val > 0) then
+            options.sourceUnit.hpCur("+=" .. val)
+            --- 触发吸血事件
+            event.trigger(options.sourceUnit, EVENT.Unit.HPSuckAttack, { triggerUnit = options.sourceUnit, targetUnit = options.targetUnit, value = val, percent = percent })
+            event.trigger(options.sourceUnit, EVENT.Unit.Be.HPSuckAttack, { triggerUnit = options.targetUnit, sourceUnit = options.sourceUnit, value = val, percent = percent })
+        end
+    end
+end)
+
 
 -- 允许判定
-local approveHPSuck = (sourceUnit ~= nil and damageSrc == DAMAGE_SRC.attack)
 local approveHPSuckSpell = (sourceUnit ~= nil and damageSrc == DAMAGE_SRC.ability)
 local approveMPSuck = (sourceUnit ~= nil and damageSrc == DAMAGE_SRC.attack and sourceUnit.mp() > 0 and targetUnit.mpCur() > 0)
 local approveMPSuckSpell = (sourceUnit ~= nil and damageSrc == DAMAGE_SRC.ability and sourceUnit.mp() > 0 and targetUnit.mpCur() > 0)
 local approvePunish = (targetUnit.punish() > 0 and targetUnit.isPunishing() == false)
 
--- [处理]攻击吸血
-if (approveHPSuck) then
-    local percent = sourceUnit.hpSuckAttack() - targetUnit.resistance("hpSuckAttack")
-    if (percent > 0) then
-        local val = dmg * percent * 0.01
-        sourceUnit.hpCur("+=" .. val)
-        --- 触发吸血事件
-        event.trigger(sourceUnit, EVENT.Unit.HPSuckAttack, { triggerUnit = sourceUnit, targetUnit = targetUnit, value = val, percent = percent })
-        event.trigger(sourceUnit, EVENT.Unit.Be.HPSuckAttack, { triggerUnit = targetUnit, sourceUnit = sourceUnit, value = val, percent = percent })
-    end
-end
 -- [处理]技能吸血
 if (approveHPSuckSpell) then
     local percent = sourceUnit.hpSuckAbility() - targetUnit.resistance("hpSuckAbility")
