@@ -1,7 +1,7 @@
 ---@param effectiveData noteOnAbilityEffectiveData
 TPL_ABILITY. AB2 = AbilityTpl()
     .name("沉默一波")
-    .targetType(ABILITY_TARGET_TYPE.TAG_U)
+    .targetType(ABILITY_TARGET_TYPE.tag_unit)
     .icon("AB2")
     .coolDownAdv(1, 0)
     .hpCostAdv(10, 5)

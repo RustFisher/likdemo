@@ -1,7 +1,7 @@
 ---@param attackData noteOnUnitAttackData
 TPL_ABILITY.King = AbilityTpl()
     .name("唯我独尊")
-    .targetType(ABILITY_TARGET_TYPE.PAS)
+    .targetType(ABILITY_TARGET_TYPE.pas)
     .icon("AB3")
     .levelMax(5)
     .levelUpNeedPoint(1)

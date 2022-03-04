@@ -17,7 +17,7 @@ Game():defineDescription("itemAbility", function(this, options)
     local indent = '    '
     table.insert(str, indent .. '类型：%s')
     table.insert(options, { 'ffcc00', tt.label })
-    if (tt ~= ABILITY_TARGET_TYPE.PAS) then
+    if (tt ~= ABILITY_TARGET_TYPE.pas) then
         local chantCast = this.castChant(lv)
         if (chantCast > 0) then
             table.insert(str, indent .. '吟唱时间：%s 秒')
@@ -49,7 +49,7 @@ Game():defineDescription("itemBase", function(this, _)
     if (isClass(this.ability(), AbilityClass)) then
         local tt = this.ability().targetType()
         if (isClass(this, ItemClass)) then
-            if (tt ~= ABILITY_TARGET_TYPE.PAS and this.hotkey() ~= nil) then
+            if (tt ~= ABILITY_TARGET_TYPE.pas and this.hotkey() ~= nil) then
                 name = name .. '（' .. colour.gold(this.hotkey()) .. '）'
             end
             table.insert(desc, name)

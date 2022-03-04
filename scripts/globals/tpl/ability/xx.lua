@@ -1,7 +1,7 @@
 ---@param effectiveData noteOnAbilityEffectiveData
 TPL_ABILITY.XX = AbilityTpl()
     .name("火焰飞弹")
-    .targetType(ABILITY_TARGET_TYPE.TAG_E)
+    .targetType(ABILITY_TARGET_TYPE.tag_nil)
     .icon("fireRocketIcon")
     .coolDownAdv(1, 0)
     .mpCostAdv(50, 10)

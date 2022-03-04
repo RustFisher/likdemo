@@ -2,7 +2,7 @@
 ---@param effectiveData noteOnAbilityEffectiveData
 TPL_ABILITY.ZZJY = AbilityTpl()
     .name("自在极意被动")
-    .targetType(ABILITY_TARGET_TYPE.PAS)
+    .targetType(ABILITY_TARGET_TYPE.pas)
     .icon("ChaosBody")
     .coolDownAdv(5, 0)
     .mpCostAdv(50, 0)

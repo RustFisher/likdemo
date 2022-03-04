@@ -1,7 +1,7 @@
 ---@param effectiveData noteOnAbilityEffectiveData
 TPL_ABILITY.AB3 = AbilityTpl()
     .name("技能3")
-    .targetType(ABILITY_TARGET_TYPE.TAG_L)
+    .targetType(ABILITY_TARGET_TYPE.tag_loc)
     .icon("AB2")
     .coolDownAdv(5, 0)
     .mpCostAdv(10, 5)
