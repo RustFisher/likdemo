@@ -39,11 +39,11 @@ if (DEBUGGING) then
         if (p == "this") then
             proc = ProcessCurrent
         else
-            proc = Processes.get(p)
+            proc = Process(p)
         end
         if (isClass(proc, ProcessClass)) then
             print(p .. "流程已重置")
-            proc.start()
+            proc:start()
         end
     end)
 end

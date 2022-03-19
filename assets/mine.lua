@@ -19,11 +19,11 @@ _assets_ui("ralarvo_set")
 _assets_ui("ralarvo_debug") --DEBUG次之
 _assets_ui("ralarvo_cursor") --指针置顶
 
-_assets_icon("ability\\red\\DeathKnightSpellDeflection", "AB1")
-_assets_icon("ability\\blue\\AbsorbMagic", "AB2")
-_assets_icon("ability\\blue\\ArcaneArcaneResilience", "AB3")
-_assets_icon("ability\\green\\Banish", "AB4")
-_assets_icon("ability\\yellow\\Aftershock2", "AB5")
+_assets_icon("ability\\DeathKnightSpellDeflection", "AB1")
+_assets_icon("ability\\AbsorbMagic", "AB2")
+_assets_icon("ability\\ArcaneArcaneResilience", "AB3")
+_assets_icon("ability\\Banish", "AB4")
+_assets_icon("ability\\Aftershock2", "AB5")
 
 -- 牢笼
 _assets_model(":Doodads\\LordaeronSummer\\Props\\Cage\\Cage", "Cage", "deco")
@@ -31,7 +31,7 @@ _assets_model(":Doodads\\LordaeronSummer\\Props\\Cage\\Cage", "Cage", "deco")
 _assets_model("missile/Abstruse", "Abstruse") --紫光奥义
 _assets_model("missile/AbstruseArrow", "AbstruseArrow") --粉紫星芒
 
-_assets_model("hero/BEArcaneHuntress", "BEArcaneHuntress", "unit", { Art = "unit\\hero\\ArcaneHuntress" }) --刺客
-_assets_model("hero/Banshee_Queen_Sylvanas", "Banshee_Queen_Sylvanas", "unit", { Art = "unit\\hero\\DarkRangerGradient" }) --黑游（普通）
-_assets_model("hero/TheBansheeQueen", "TheBansheeQueen", "unit", { Art = "unit\\hero\\DarkRangerDegenerate" }) --黑游（魔化）
-_assets_model("hero/BloodBeetle", "BloodBeetle", "unit", { Art = "unit\\insect\\HunterPetSilithid" }) --血牙
+_assets_model("hero/BEArcaneHuntress", "BEArcaneHuntress", "unit", { Art = "unit\\ArcaneHuntress" }) --刺客
+_assets_model("hero/Banshee_Queen_Sylvanas", "Banshee_Queen_Sylvanas", "unit", { Art = "unit\\DarkRangerGradient" }) --黑游（普通）
+_assets_model("hero/TheBansheeQueen", "TheBansheeQueen", "unit", { Art = "unit\\DarkRangerDegenerate" }) --黑游（魔化）
+_assets_model("hero/BloodBeetle", "BloodBeetle", "unit", { Art = "unit\\HunterPetSilithid" }) --血牙
