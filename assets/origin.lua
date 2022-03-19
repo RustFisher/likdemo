@@ -801,7 +801,7 @@ _assets_model(":units\\orc\\Spiritwolf\\Spiritwolf", "SpiritWolf", "unit", { Art
 --毒蛇守卫
 _assets_model(":units\\orc\\SerpentWard\\SerpentWard", "SerpentWard", "unit", { Art = "unit\\SerpentWard" })
 --岗哨守卫
-_assets_model(":units\\orc\\SentryWard\\SentryWard", "SentryWard", "unit", { Art = "item\\misc\\SentryWard" })
+_assets_model(":units\\orc\\SentryWard\\SentryWard", "SentryWard", "unit", { Art = "item\\SentryWard" })
 --静止陷阱
 _assets_model(":units\\orc\\StasisTotem\\StasisTotem", "StasisTotem", "unit", { Art = "ability\\StasisTrap" })
 --治疗守卫
@@ -1215,7 +1215,7 @@ _assets_model(":units\\creeps\\InfernalCannonCannon\\InfernalCannonCannon", "Inf
 --地狱战舰
 _assets_model(":units\\creeps\\InfernalCannonFlame\\InfernalCannonFlame", "InfernalCannonFlame", "unit", { Art = "unit\\InfernalFlameCannon" })
 --地精地雷
-_assets_model(":units\\creeps\\GoblinLandMine\\GoblinLandMine", "GoblinLandMine", "unit", { Art = "item\\misc\\GoblinLandMine" })
+_assets_model(":units\\creeps\\GoblinLandMine\\GoblinLandMine", "GoblinLandMine", "unit", { Art = "item\\GoblinLandMine" })
 --地精飞艇
 _assets_model(":units\\creeps\\GoblinZeppelin\\GoblinZeppelin", "GoblinZeppelin", "unit", { Art = "unit\\GoblinZeppelin" })
 --地精工兵
