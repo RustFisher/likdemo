@@ -10,20 +10,20 @@ Game():abilityExp(99, 100, 1.00, 10000)
 ---@param options {level:number}
 Game():defineDescription("abilityBase", function(this, options)
     local desc = {}
-    local lv = math.floor(options.level or this.level())
-    local tt = this.targetType()
+    local lv = math.floor(options.level or this:level())
+    local tt = this:targetType()
     if (isClass(this, AbilityClass)) then
         if (tt ~= ABILITY_TARGET_TYPE.pas) then
-            table.insert(desc, this.name() .. ' - 等级 ' .. colour.gold(lv) .. '（' .. colour.gold(this.hotkey()) .. '）')
+            table.insert(desc, this:name() .. ' - 等级 ' .. colour.gold(lv) .. '（' .. colour.gold(this:hotkey()) .. '）')
         else
-            table.insert(desc, this.name() .. " - 等级 " .. colour.gold(lv))
+            table.insert(desc, this:name() .. " - 等级 " .. colour.gold(lv))
         end
     else
-        table.insert(desc, this.name())
+        table.insert(desc, this:name())
     end
     table.insert(desc, '类型：' .. colour.gold(tt.label))
     if (tt ~= ABILITY_TARGET_TYPE.pas) then
-        local chantCast = this.castChant(lv)
+        local chantCast = this:castChant(lv)
         if (chantCast > 0) then
             table.insert(desc, '吟唱时间：' .. colour.skyLight(chantCast .. " 秒"))
         else
@@ -40,7 +40,7 @@ end)
 -- [技能点信息]
 ---@param this Ability
 Game():defineDescription("abilityLvPoint", function(this, _)
-    if (this.levelUpNeedPoint() > 0) then
-        return { colour.hex('升级需要技能点: ' .. this.levelUpNeedPoint(), 'EFBA16') }
+    if (this:levelUpNeedPoint() > 0) then
+        return { colour.hex('升级需要技能点: ' .. this:levelUpNeedPoint(), 'EFBA16') }
     end
 end)

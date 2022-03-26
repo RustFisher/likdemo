@@ -1,11 +1,11 @@
 -- 命令
 --- -gg 投降
 Game():command("^-gg$", function()
-    evtData.triggerPlayer.quit("GG")
+    evtData.triggerPlayer:quit("GG")
 end)
 --- -apm 查看玩家分钟操作数
 Game():command("^-apm$", function(evtData)
-    echo("您的apm为:" .. evtData.triggerPlayer.apm(), evtData.triggerPlayer)
+    echo("您的apm为:" .. evtData.triggerPlayer:apm(), evtData.triggerPlayer)
 end)
 --- -d [+|-|=][NUMBER]减少/增加/设置视距
 Game():command("^-d [-+=]%d+$", function(evtData)
@@ -19,13 +19,13 @@ Game():command("^-d [-+=]%d+$", function(evtData)
             local val = math.abs(v)
             async(evtData.triggerPlayer, function()
                 if (first == "+") then
-                    Camera().distance("+=" .. val)
+                    Camera():distance("+=" .. val)
                 elseif (first == "-") then
-                    Camera().distance("-=" .. val)
+                    Camera():distance("-=" .. val)
                 elseif (first == "=") then
-                    Camera().distance(val)
+                    Camera():distance(val)
                 end
-                echo("视距已设置为：" .. Camera().distance(), evtData.triggerPlayer)
+                echo("视距已设置为：" .. Camera():distance(), evtData.triggerPlayer)
             end)
         end
     end

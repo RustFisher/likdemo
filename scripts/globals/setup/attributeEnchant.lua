@@ -22,7 +22,7 @@ attribute.enchant("fire", "火", {
     },
     reaction = {
         grass = attribute.enchantReaction(function(evtData)
-            evtData.triggerUnit.hpRegen("-=200;5")
+            evtData.triggerUnit:hpRegen("-=200;5")
         end)
     },
 })
@@ -55,7 +55,7 @@ Game():defineDescription("attributes", function(this, options)
         return nil
     end
     local desc = {}
-    local lv = math.floor(options.level or this.level())
+    local lv = math.floor(options.level or this:level())
     table.insert(desc, "")
     for _, a in ipairs(attributes) do
         local method = a[1]

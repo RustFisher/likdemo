@@ -1,30 +1,30 @@
 ---@param effectiveData noteOnAbilityEffectiveData
 TPL_ABILITY.XX = AbilityTpl()
-    .name("火焰飞弹")
-    .targetType(ABILITY_TARGET_TYPE.tag_nil)
-    .icon("fireRocketIcon")
-    .coolDownAdv(1, 0)
-    .mpCostAdv(50, 10)
-    .levelMax(10)
-    .castAnimation("slam")
-    .levelUpNeedPoint(10)
-    .description(
+    :name("火焰飞弹")
+    :targetType(ABILITY_TARGET_TYPE.tag_nil)
+    :icon("fireRocketIcon")
+    :coolDownAdv(1, 0)
+    :mpCostAdv(50, 10)
+    :levelMax(10)
+    :castAnimation("slam")
+    :levelUpNeedPoint(10)
+    :description(
     {
         "发射火箭，对2000范围内敌人进行攻击造成：" .. colour.gold("{math.floor(this.bindUnit().attack()*this.level())}") .. "点" .. colour.yellowLight("火") .. "属性伤害(技能等级x攻击力)",
         "火箭数量：" .. colour.gold("{math.floor(2+this.level())}") .. "枚" .. "(技能等级+2)",
         colour.red("升级需要") .. "{math.floor(10*this.level())}" .. colour.red("技能点")
     })
-    .onEvent(EVENT.Ability.Effective,
+    :onEvent(EVENT.Ability.Effective,
     function(effectiveData)
-        local dmg = effectiveData.triggerUnit.attack() * effectiveData.triggerAbility.level()
+        local dmg = effectiveData.triggerUnit:attack() * effectiveData.triggerAbility:level()
         local us = Group("Unit"):rand({
-            x = effectiveData.triggerUnit.x(),
-            y = effectiveData.triggerUnit.y(),
+            x = effectiveData.triggerUnit:x(),
+            y = effectiveData.triggerUnit:y(),
             radius = 2000,
-            limit = effectiveData.triggerAbility.level() + 2,
+            limit = effectiveData.triggerAbility:level() + 2,
             ---@param enumUnit Unit
             filter = function(enumUnit)
-                return enumUnit.isAlive() and effectiveData.triggerUnit.isEnemy(enumUnit.owner())
+                return enumUnit:isAlive() and effectiveData.triggerUnit:isEnemy(enumUnit:owner())
             end
         })
         if (#us > 0) then
@@ -55,11 +55,11 @@ TPL_ABILITY.XX = AbilityTpl()
             end
         end
     end)
-    .onEvent(EVENT.Ability.LevelChange,
+    :onEvent(EVENT.Ability.LevelChange,
     function(effectiveData)
-        local num = effectiveData.triggerAbility.level() * 10
-        if (effectiveData.triggerAbility.level() > 1) then
+        local num = effectiveData.triggerAbility:level() * 10
+        if (effectiveData.triggerAbility:level() > 1) then
             num = num + 10
         end
-        effectiveData.triggerAbility.levelUpNeedPoint(num)
+        effectiveData.triggerAbility:levelUpNeedPoint(num)
     end)
