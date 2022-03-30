@@ -59,17 +59,17 @@ process:onStart(function(this)
         for _ = 1, concurrent do
             local n = 0
             local cache = {}
-            local t = J.CreateTimer()
-            J.handleRef(t)
-            J.TimerStart(t, frequency, true, function()
+            local t = JassLib.CreateTimer()
+            JassLib.handleRef(t)
+            JassLib.TimerStart(t, frequency, true, function()
                 n = n + 1
                 if (n % 1000 == 0) then
                     print("====== = >" .. types[type] .. n .. "次")
                 end
                 if (n > number or running == false) then
-                    J.PauseTimer(t)
-                    J.DestroyTimer(t)
-                    J.handleUnRef(t)
+                    JassLib.PauseTimer(t)
+                    JassLib.DestroyTimer(t)
+                    JassLib.handleUnRef(t)
                     running = false;
                     print("========" .. types[type] .. "测试结束========")
                     cache = {}
