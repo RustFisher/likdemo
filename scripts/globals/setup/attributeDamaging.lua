@@ -88,7 +88,7 @@ attribute.damaging("hurtIncrease", function(options)
     end
 end)
 
---- 反伤
+--- 反伤(%)
 attribute.damaging("hurtRebound", function(options)
     -- 抵抗
     local approve = (options.sourceUnit ~= nil and options.damageSrc == DAMAGE_SRC.rebound)
@@ -177,7 +177,7 @@ attribute.damaging("defend", function(options)
     end
 end)
 
---- 减伤:比例
+--- 减伤(%)
 attribute.damaging("hurtReduction", function(options)
     local hurtReduction = options.targetUnit:hurtReduction()
     if (hurtReduction > 0) then
