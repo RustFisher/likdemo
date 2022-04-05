@@ -1,11 +1,13 @@
+local damageFlow = Flow("damage")
+
 --- 提取一些需要的参数
-attribute.damaging("prop", function(options)
+damageFlow:set("prop", function(options)
     options.defend = options.targetUnit:defend()
     options.avoid = options.targetUnit:avoid() - options.sourceUnit:aim()
 end)
 
 --- 判断无视装甲类型
-attribute.damaging("breakArmor", function(options)
+damageFlow:set("breakArmor", function(options)
     local ignore = { defend = false, avoid = false, invincible = false }
     if (#options.breakArmor > 0) then
         for _, b in ipairs(options.breakArmor) do
@@ -38,7 +40,7 @@ attribute.damaging("breakArmor", function(options)
 end)
 
 --- 自身攻击暴击
-attribute.damaging("crit", function(options)
+damageFlow:set("crit", function(options)
     local approve = (options.sourceUnit ~= nil and (options.damageSrc == DAMAGE_SRC.attack or options.damageSrc == DAMAGE_SRC.ability))
     if (approve) then
         local crit = options.sourceUnit:crit()
@@ -56,7 +58,7 @@ attribute.damaging("crit", function(options)
 end)
 
 --- 回避
-attribute.damaging("avoid", function(options)
+damageFlow:set("avoid", function(options)
     local approve = (options.avoid > 0 and (options.damageSrc == DAMAGE_SRC.attack or options.damageSrc == DAMAGE_SRC.rebound))
     if (approve) then
         if (options.avoid > math.rand(1, 100)) then
@@ -70,7 +72,7 @@ attribute.damaging("avoid", function(options)
 end)
 
 --- 伤害加深(%)
-attribute.damaging("damageIncrease", function(options)
+damageFlow:set("damageIncrease", function(options)
     local approve = (options.sourceUnit ~= nil)
     if (approve) then
         local damageIncrease = options.sourceUnit:damageIncrease()
@@ -81,7 +83,7 @@ attribute.damaging("damageIncrease", function(options)
 end)
 
 --- 受伤加深(%)
-attribute.damaging("hurtIncrease", function(options)
+damageFlow:set("hurtIncrease", function(options)
     local hurtIncrease = options.targetUnit:hurtIncrease()
     if (hurtIncrease > 0) then
         options.damage = options.damage * (1 + hurtIncrease * 0.01)
@@ -89,7 +91,7 @@ attribute.damaging("hurtIncrease", function(options)
 end)
 
 --- 反伤(%)
-attribute.damaging("hurtRebound", function(options)
+damageFlow:set("hurtRebound", function(options)
     -- 抵抗
     local approve = (options.sourceUnit ~= nil and options.damageSrc == DAMAGE_SRC.rebound)
     if (approve) then
@@ -163,7 +165,7 @@ attribute.damaging("hurtRebound", function(options)
 end)
 
 --- 防御
-attribute.damaging("defend", function(options)
+damageFlow:set("defend", function(options)
     if (options.defend < 0) then
         options.damage = options.damage + math.abs(options.defend)
     elseif (options.defend > 0) then
@@ -178,7 +180,7 @@ attribute.damaging("defend", function(options)
 end)
 
 --- 减伤(%)
-attribute.damaging("hurtReduction", function(options)
+damageFlow:set("hurtReduction", function(options)
     local hurtReduction = options.targetUnit:hurtReduction()
     if (hurtReduction > 0) then
         options.damage = options.damage * (1 - hurtReduction * 0.01)
@@ -192,7 +194,7 @@ attribute.damaging("hurtReduction", function(options)
 end)
 
 --- 攻击吸血
-attribute.damaging("hpSuckAttack", function(options)
+damageFlow:set("hpSuckAttack", function(options)
     local approve = (options.sourceUnit ~= nil and options.damageSrc == DAMAGE_SRC.attack)
     if (approve) then
         local percent = options.sourceUnit:hpSuckAttack() - options.targetUnit:resistance("hpSuckAttack")
@@ -207,7 +209,7 @@ attribute.damaging("hpSuckAttack", function(options)
 end)
 
 --- 技能吸血
-attribute.damaging("hpSuckAbility", function(options)
+damageFlow:set("hpSuckAbility", function(options)
     local approve = (options.sourceUnit ~= nil and options.damageSrc == DAMAGE_SRC.ability)
     if (approve) then
         local percent = options.sourceUnit:hpSuckAbility() - options.targetUnit:resistance("hpSuckAbility")
@@ -222,7 +224,7 @@ attribute.damaging("hpSuckAbility", function(options)
 end)
 
 --- 攻击吸魔;吸魔会根据伤害，扣减目标的魔法值，再据百分比增加自己的魔法值;目标魔法值不足 1 从而吸收时，则无法吸取
-attribute.damaging("mpSuckAttack", function(options)
+damageFlow:set("mpSuckAttack", function(options)
     local approve = (options.sourceUnit ~= nil and options.damageSrc == DAMAGE_SRC.attack and options.sourceUnit:mp() > 0 and options.targetUnit:mpCur() > 0)
     if (approve) then
         local percent = options.sourceUnit:mpSuckAttack() - options.targetUnit:resistance("mpSuckAttack")
@@ -241,7 +243,7 @@ attribute.damaging("mpSuckAttack", function(options)
 end)
 
 --- 技能吸魔;吸魔会根据伤害，扣减目标的魔法值，再据百分比增加自己的魔法值;目标魔法值不足 1 从而吸收时，则无法吸取
-attribute.damaging("mpSuckAbility", function(options)
+damageFlow:set("mpSuckAbility", function(options)
     local approve = (options.sourceUnit ~= nil and options.damageSrc == DAMAGE_SRC.ability and options.sourceUnit.mp() > 0 and options.targetUnit.mpCur() > 0)
     if (approve) then
         local percent = options.sourceUnit:mpSuckAbility() - options.targetUnit:resistance("mpSuckAbility")
@@ -260,7 +262,7 @@ attribute.damaging("mpSuckAbility", function(options)
 end)
 
 --- 硬直
-attribute.damaging("punishCur", function(options)
+damageFlow:set("punishCur", function(options)
     local approve = (options.targetUnit:punish() > 0 and options.targetUnit:isPunishing() == false)
     if (approve) then
         options.targetUnit:punishCur("-=" .. options.damage)
@@ -268,7 +270,7 @@ attribute.damaging("punishCur", function(options)
 end)
 
 --- 附魔加成|抵抗
-attribute.damaging("enchant", function(options)
+damageFlow:set("enchant", function(options)
     local addition = 0
     if (options.sourceUnit ~= nil) then
         local amplify = options.sourceUnit:enchant(options.damageType.value)
@@ -291,8 +293,8 @@ attribute.damaging("enchant", function(options)
 end)
 
 -- 附魔附着
-attribute.damaging("enchantAppend", function(options)
+damageFlow:set("damageAppend", function(options)
     if (options.damageType ~= DAMAGE_TYPE.common) then
-        attribute.enchantAppend(options.sourceUnit, options.targetUnit, options.damageType, options.damageTypeLevel)
+        attribute.damageAppend(options.sourceUnit, options.targetUnit, options.damageType, options.damageTypeLevel)
     end
 end)
