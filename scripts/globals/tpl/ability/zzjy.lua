@@ -15,14 +15,15 @@ TPL_ABILITY.ZZJY = AbilityTpl()
     :onEvent(EVENT.Ability.Effective,
     function(effectiveData)
         -- 技能被触发的效果
-        effectiveData.triggerUnit:attach("DivineShieldTarget", "origin", 3)
-        ---@param buffObj Unit
-        Buff(effectiveData.triggerUnit, "hurtRebound", 3, 0,
-            function(buffObj)
-                buffObj:hurtReduction("+=100"):hurtRebound("+=100"):odds("hurtRebound", "+=100")
-            end,
-            function(buffObj)
-                buffObj:hurtReduction("-=100"):hurtRebound("-=100"):odds("hurtRebound", "-=100")
-            end)
-            :purpose()
+        local tu = effectiveData.triggerUnit
+        tu:attach("DivineShieldTarget", "origin", 3)
+          :buff("自在极意被动")
+          :duration(3)
+          :purpose(function(buffObj)
+            buffObj:hurtReduction("+=100"):hurtRebound("+=100"):odds("hurtRebound", "+=100")
+        end)
+          :rollback(function(buffObj)
+            buffObj:hurtReduction("-=100"):hurtRebound("-=100"):odds("hurtRebound", "-=100")
+        end)
+          :run()
     end)
