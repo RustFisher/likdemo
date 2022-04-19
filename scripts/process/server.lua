@@ -14,10 +14,10 @@ process:onStart(function(this)
     local t = time.setInterval(1.51, function()
         dump(japi.DzAPI_Map_GetServerValue(Player(1).handle(), "hello"))
     end)
-    this.stage("t", t)
+    this:stage("t", t)
 end)
 
-process:onOver(function(this)
-    destroy(this.stage("t"))
+process:onEnd(function(this)
+    destroy(this:stage("t"))
 end)
 

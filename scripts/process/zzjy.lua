@@ -14,5 +14,5 @@ process:onStart(function(this)
 
 end)
 
-process:onOver(function(this)
+process:onEnd(function(this)
 end)
