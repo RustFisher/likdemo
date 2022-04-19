@@ -54,8 +54,8 @@ TPL_ABILITY.King = AbilityTpl()
                         attackData.triggerUnit:crit("-=" .. (a * 5))
                         attackData.triggerUnit:odds("crit", "-=" .. (a * 2.5))
                     end
-                    attackData.triggerAbility:prop("atkTimer", NIL)
-                    attackData.triggerAbility:prop("atkTarget", NIL)
+                    attackData.triggerAbility:clear("atkTimer")
+                    attackData.triggerAbility:clear("atkTarget")
                     attackData.triggerAbility:prop("atk", 0)
                 end
             end))
