@@ -30,6 +30,6 @@ process:onStart(function(self)
     u1:abilitySlot():push(TPL_ABILITY.King, 6)
 end)
 
-process:onEnd(function(self)
+process:onOver(function(self)
     destroy(self:stage("u1"))
 end)

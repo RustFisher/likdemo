@@ -39,7 +39,7 @@ process:onStart(function(this)
     print(string.format("run time: %.2f\n", x2 - x1))
 end)
 
-process:onEnd(function(this)
+process:onOver(function(this)
     destroy(this:stage("u1"))
     for _, it in ipairs(this:stage("its")) do
         destroy(it)

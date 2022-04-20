@@ -18,7 +18,7 @@ process:onStart(function(this)
 
 end)
 
-process:onEnd(function(this)
+process:onOver(function(this)
     async(Player(1), function()
         destroy(this:stage("t1"))
     end)

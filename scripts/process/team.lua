@@ -23,7 +23,7 @@ process:onStart(function(this)
 
 end)
 
-process:onEnd(function(this)
+process:onOver(function(this)
     destroy(this:stage("t1"))
     for _, u in ipairs(this:stage("us")) do
         destroy(u)

@@ -37,7 +37,7 @@ process:onStart(function(this)
 
 end)
 
-process:onEnd(function(this)
+process:onOver(function(this)
     destroy(this:stage("t1"))
     destroy(this:stage("t2"))
 end)

@@ -17,7 +17,7 @@ process:onStart(function(this)
     this:stage("t", t)
 end)
 
-process:onEnd(function(this)
+process:onOver(function(this)
     destroy(this:stage("t"))
 end)
 
