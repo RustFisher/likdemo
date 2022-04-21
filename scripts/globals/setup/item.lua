@@ -60,6 +60,8 @@ Game():defineDescription("itemBase", function(this, _)
         if (this:charges() > 0) then
             table.insert(desc, colour.white("|n剩余次数：" .. this:charges()))
         end
+    else
+        table.insert(desc, name)
     end
     if (this:level() < this.levelMax()) then
         table.insert(desc, colour.format('最大可升级到 %s 级', 'c0c0c0', { { "ffcc00", this:levelMax() } }))
