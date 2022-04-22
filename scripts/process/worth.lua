@@ -3,7 +3,8 @@ local process = Process("worth")
 process:onStart(function(this)
 
     time.setTimeout(1, function()
-        Player(1).worth({ gold = 1, silver = 101, copper = 111 })
+        Player(1):worth({ gold = 1, silver = 101, copper = 111 })
+        Player(1):worth({ silver = 110 }, "-")
     end)
 
     print("对比测试")
@@ -22,9 +23,12 @@ process:onStart(function(this)
     dump(Game():worthL2U({ copper = 21374 }))
 
     print("比例计算")
-    dump(Game():worthCale({ gold = 1, silver = 2, copper = 3 }, 0.5))
-    dump(Game():worthCale({ gold = 2, silver = 1, copper = 7 }, 0.3))
-    dump(Game():worthCale({ gold = 7, silver = 13, copper = 1111 }, 0.5))
+    dump(Game():worthCale({ gold = 100 }, "*", 0.5))
+    dump(Game():worthCale({ gold = 100 }, "/", 2))
+    dump(Game():worthCale(3, "*", { gold = 100 }))
+    dump(Game():worthCale({ gold = 100 }, "+", { gold = 100 }))
+    dump(Game():worthCale({ gold = 100 }, "-", { gold = 100 }))
+
 
 end)
 
