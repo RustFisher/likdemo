@@ -3,8 +3,8 @@ local process = Process("worth")
 process:onStart(function(this)
 
     time.setTimeout(1, function()
-        Player(1):worth({ gold = 1, silver = 101, copper = 111 })
-        Player(1):worth({ silver = 110 }, "-")
+        Player(1):worth("=", { gold = 1, silver = 101, copper = 111 })
+        Player(1):worth("-", { silver = 110 })
     end)
 
     print("对比测试")
