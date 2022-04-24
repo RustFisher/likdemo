@@ -59,17 +59,17 @@ process:onStart(function(this)
         for _ = 1, concurrent do
             local n = 0
             local cache = {}
-            local t = JFunc.CreateTimer()
-            JFunc.handleRef(t)
-            JFunc.TimerStart(t, frequency, true, function()
+            local t = J.CreateTimer()
+            J.handleRef(t)
+            J.TimerStart(t, frequency, true, function()
                 n = n + 1
                 if (n % 1000 == 0) then
                     print("====== = >" .. types[type] .. n .. "次")
                 end
                 if (n > number or running == false) then
-                    JFunc.PauseTimer(t)
-                    JFunc.DestroyTimer(t)
-                    JFunc.handleUnRef(t)
+                    J.PauseTimer(t)
+                    J.DestroyTimer(t)
+                    J.handleUnRef(t)
                     running = false;
                     print("========" .. types[type] .. "测试结束========")
                     cache = {}
