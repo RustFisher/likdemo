@@ -63,7 +63,7 @@ Game():defineDescription("itemBase", function(this, _)
     else
         table.insert(desc, name)
     end
-    if (this:level() < this.levelMax()) then
+    if (this:level() < this:levelMax()) then
         table.insert(desc, colour.format('最大可升级到 %s 级', 'c0c0c0', { { "ffcc00", this:levelMax() } }))
     end
     return desc

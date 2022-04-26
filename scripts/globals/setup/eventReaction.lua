@@ -6,7 +6,7 @@ end
 
 ---@param evtData noteOnUnitCritData
 event.reaction(EVENT.Unit.Crit, function(evtData)
-    evtData.targetUnit.attach("ralarvo_crit", "origin", 0.5, 1)
+    evtData.targetUnit:attach("ralarvo_crit", "origin", 0.5, 1)
     ttg.model({
         model = "ralarvo_ttg_crit",
         size = 1.4,

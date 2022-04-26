@@ -1,4 +1,4 @@
-attribute.labelOpts = {
+attribute.labels = {
     attack = "攻击",
     defend = "防御",
 }
@@ -11,7 +11,7 @@ Game():defineDescription("attributes", function(this, options)
     if (type(this.attributes) ~= "function") then
         return nil
     end
-    local attributes = this.attributes()
+    local attributes = this:attributes()
     if (type(attributes) ~= "table" or #attributes == 0) then
         return nil
     end
@@ -31,15 +31,15 @@ Game():defineDescription("attributes", function(this, options)
             d1 = a[3] or 0
             d2 = a[4] or d1
         end
-        if (attribute.labelOpts[method] ~= nil) then
+        if (attribute.labels[method] ~= nil) then
             local v = d1
             if (lv > 1) then
                 v = v + (lv - 1) * d2
             end
             if (v > 0) then
-                table.insert(desc, attribute.labelOpts[method] .. ": +" .. v)
+                table.insert(desc, attribute.labels[method] .. ": +" .. v)
             elseif (v < 0) then
-                table.insert(desc, attribute.labelOpts[method] .. ": " .. v)
+                table.insert(desc, attribute.labels[method] .. ": " .. v)
             end
         end
     end

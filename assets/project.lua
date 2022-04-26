@@ -1,6 +1,12 @@
 _assets_selection("Common")
 _assets_font("字魂59号-创粗黑")
 
+_assets_ui("ralarvo_msg")
+_assets_ui("ralarvo_menu")
+_assets_ui("ralarvo_minimap")
+_assets_ui("ralarvo_debug") --DEBUG次之
+_assets_ui("ralarvo_cursor") --指针置顶
+
 _assets_sound("metal_bash_heavy", nil, "vwp")
 _assets_sound("voice/clickhero/level_up", "lv", "v3d")
 _assets_sound("voice/action/打鼓", "drum", "v3d")
@@ -14,10 +20,6 @@ _assets_model("word/Rank_AoShiTianXia")
 _assets_model("buff/InvinciblePurpleBall", "InvinciblePurpleBall")
 _assets_model("buff/IonCentrifugalCircle", "IonCentrifugalCircle")
 _assets_model("buff/Liberty", "Liberty")
-
-_assets_ui("ralarvo_set")
-_assets_ui("ralarvo_debug") --DEBUG次之
-_assets_ui("ralarvo_cursor") --指针置顶
 
 _assets_icon("ability\\DeathKnightSpellDeflection", "AB1")
 _assets_icon("ability\\AbsorbMagic", "AB2")
