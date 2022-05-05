@@ -56,7 +56,7 @@ Game():defineDescription("itemBase", function(this, _)
         else
             table.insert(desc, name)
         end
-        desc = table.merge(desc, Game():combineDescription(this:ability(), nil, "itemAbility", "<D>", "attributes"))
+        desc = table.merge(desc, Game():combineDescription(this:ability(), nil, "itemAbility", SYMBOL_D, "attributes"))
         if (this:charges() > 0) then
             table.insert(desc, colour.white("|n剩余次数：" .. this:charges()))
         end

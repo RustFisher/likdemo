@@ -5,10 +5,10 @@ I18N_LANGS = {
 }
 
 --- 默认数据
+I18N.data(SYMBOL_MUT, { zh_CN = '最终态值', en_US = 'Mutation ' })
+I18N.data(SYMBOL_RAI, { zh_CN = '改变态值', 'Raise ' })
+I18N.data(SYMBOL_SUP, { zh_CN = '叠加态值', en_US = 'Superposition ' })
 I18N.data("MapLv", { zh_CN = '地图等级', en_US = nil })
-I18N.data('<MUT>', { zh_CN = '最终态值', en_US = 'Mutation ' })
-I18N.data('<RAI>', { zh_CN = '改变态值', 'Raise ' })
-I18N.data('<SUP>', { zh_CN = '叠加态值', en_US = 'Superposition ' })
 I18N.data('<几率>', { zh_CN = '几率', en_US = ' Chance' })
 I18N.data('<加成>', { zh_CN = '加成', en_US = ' Increase' })
 I18N.data('<加深>', { zh_CN = '加深', en_US = ' Increase' })
