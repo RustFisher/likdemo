@@ -108,7 +108,7 @@ end)
 ---@param evtData noteOnUnitEnchantData
 event.reaction(EVENT.Unit.Enchant, function(evtData)
     ttg.model({
-        model = "ralarvo_ttg_e_" .. evtData.enchantType,
+        model = "ralarvo_ttg_e_" .. evtData.enchantType.value,
         size = 1.1,
         x = evtData.targetUnit:x() - math.rand(50, 100),
         y = evtData.targetUnit:y() - math.rand(50, 100),

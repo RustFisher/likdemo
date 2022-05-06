@@ -1,4 +1,5 @@
 ---@param effectiveData noteOnAbilityEffectiveData
+---@param lvChangeData noteOnPropAbility
 TPL_ABILITY.XX = AbilityTpl()
     :name("火焰飞弹")
     :targetType(ABILITY_TARGET_TYPE.tag_nil)
@@ -17,7 +18,7 @@ TPL_ABILITY.XX = AbilityTpl()
     :onEvent(EVENT.Ability.Effective,
     function(effectiveData)
         local dmg = effectiveData.triggerUnit:attack() * effectiveData.triggerAbility:level()
-        local us = Group("Unit"):rand({
+        local us = Group(UnitClass):rand({
             x = effectiveData.triggerUnit:x(),
             y = effectiveData.triggerUnit:y(),
             radius = 2000,
@@ -55,11 +56,11 @@ TPL_ABILITY.XX = AbilityTpl()
             end
         end
     end)
-    :onEvent(EVENT.Ability.LevelChange,
-    function(effectiveData)
-        local num = effectiveData.triggerAbility:level() * 10
-        if (effectiveData.triggerAbility:level() > 1) then
+    :onEvent(EVENT.Prop.Change,
+    function(lvChangeData)
+        local num = lvChangeData.triggerObject:level() * 10
+        if (lvChangeData.triggerObject:level() > 1) then
             num = num + 10
         end
-        effectiveData.triggerAbility:levelUpNeedPoint(num)
+        lvChangeData.triggerObject:levelUpNeedPoint(num)
     end)

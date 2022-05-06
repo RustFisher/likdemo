@@ -32,7 +32,7 @@ process:onStart(function(this)
     ---@type Unit[]
     local u2s = {}
     for _ = 1, 4 do
-        table.insert(u2s, Unit(TPL_UNIT.BloodBeetle, Player(2), -500, 500, 0)
+        local u2 = Unit(TPL_UNIT.BloodBeetle, Player(2), -500, 500, 0)
             :reborn(0.5)
             :hp(10000):hpRegen(100)
             :mp(1000):mpRegen(10)
@@ -42,7 +42,7 @@ process:onStart(function(this)
             :attackRange(1000)
             :attackModePush(AttackMode():mode("lightning"):lightningType(LIGHTNING_TYPE.suckBlue):focus(3):damageType(DAMAGE_TYPE.thunder))
             :punish(1000)
-        )
+        table.insert(u2s, u2)
     end
     this:stage("u2s", u2s)
 
