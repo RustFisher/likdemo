@@ -2,6 +2,7 @@ local process = Process("battle")
 
 process:onStart(function(this)
     local u1 = Unit(TPL_UNIT.HeroFlameLord, Player(1), 400, -1000, 66.6)
+        :iconMap("px", 0.01, 0.01)
         :level(1)
         :reborn(0.5)
         :hp(1000)
@@ -33,6 +34,8 @@ process:onStart(function(this)
     local u2s = {}
     for _ = 1, 4 do
         local u2 = Unit(TPL_UNIT.BloodBeetle, Player(2), -500, 500, 0)
+            :iconMap("px", 0.003, 0.003)
+            :elite(true)
             :reborn(0.5)
             :hp(10000):hpRegen(100)
             :mp(1000):mpRegen(10)
