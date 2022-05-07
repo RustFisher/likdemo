@@ -95,7 +95,7 @@ end)
 ---@param evtData noteOnUnitHurtData
 event.reaction(EVENT.Unit.Hurt, function(evtData)
     ttg.word({
-        int = math.floor(evtData.damage),
+        str = math.floor(evtData.damage),
         width = 7,
         size = 0.4,
         x = evtData.triggerUnit:x(),

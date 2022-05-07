@@ -88,7 +88,7 @@ process:onStart(function(this)
                 elseif (type == "ttg") then
                     --测试模型漂浮字，成绩：50万 clear
                     ttg.word({
-                        int = math.rand(10000, 99999),
+                        str = math.rand(10000, 99999),
                         width = 10,
                         size = 0.25,
                         x = math.rand(-500, 500),
