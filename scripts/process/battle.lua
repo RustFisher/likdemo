@@ -11,7 +11,6 @@ process:onStart(function(this)
         :mpRegen(10)
         :move(522)
         :attackSpaceBase(1)
-        :attack(91)
         :attackRange(800)
         :attackSpeed(100)
         :crit(10)
@@ -21,8 +20,8 @@ process:onStart(function(this)
         :punish(2000)
         :weight("+=10")
 
-    ability.silent(u1, 30, "SilenceTarget", "overhead")
-    ability.unArm(u1, 30, "SilenceTarget", "weapon")
+    --ability.silent(u1, 30, "SilenceTarget", "overhead")
+    --ability.unArm(u1, 30, "SilenceTarget", "weapon")
 
     ---@param damageData noteOnUnitDamageData
     u1:onEvent(EVENT.Unit.Damage, function(damageData)

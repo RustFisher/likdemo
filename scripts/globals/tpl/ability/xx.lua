@@ -58,9 +58,11 @@ TPL_ABILITY.XX = AbilityTpl()
     end)
     :onEvent(EVENT.Prop.Change,
     function(lvChangeData)
-        local num = lvChangeData.triggerObject:level() * 10
-        if (lvChangeData.triggerObject:level() > 1) then
-            num = num + 10
+        if (lvChangeData.key == "level") then
+            local num = lvChangeData.triggerObject:level() * 10
+            if (lvChangeData.triggerObject:level() > 1) then
+                num = num + 10
+            end
+            lvChangeData.triggerObject:levelUpNeedPoint(num)
         end
-        lvChangeData.triggerObject:levelUpNeedPoint(num)
     end)
