@@ -4,6 +4,7 @@ _assets_font("字魂59号-创粗黑")
 _assets_ui("ralarvo_msg")
 _assets_ui("ralarvo_menu")
 _assets_ui("ralarvo_minimap")
+_assets_ui("ralarvo_ctl")
 _assets_ui("ralarvo_debug") --DEBUG次之
 _assets_ui("ralarvo_cursor") --指针置顶
 
