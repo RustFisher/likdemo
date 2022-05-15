@@ -1,6 +1,7 @@
 local process = Process("battle")
 
 process:onStart(function(this)
+
     local u1 = Unit(TPL_UNIT.HeroFlameLord, Player(1), 400, -1000, 66.6)
         :iconMap("px", 0.01, 0.01)
         :level(1)
