@@ -29,7 +29,7 @@ Game():defineDescription("abilityBase", function(this, options)
         else
             table.insert(desc, '吟唱时间：' .. colour.skyLight("瞬间施法"))
         end
-        local keepCast = this.castKeep(lv)
+        local keepCast = this:castKeep(lv)
         if (keepCast > 0) then
             table.insert(desc, '最大施法持续：' .. colour.skyLight(keepCast .. " 秒"))
         end

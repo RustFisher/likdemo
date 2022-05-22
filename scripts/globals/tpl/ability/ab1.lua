@@ -12,8 +12,8 @@ TPL_ABILITY.AB1 = AbilityTpl()
     :levelMax(9)
     :description(
     {
-        "基础消耗：" .. colour.purple("{this.mpCost()}"),
-        "对目标造成伤害：" .. colour.gold("{math.floor(this.bindUnit().attack()*100)}") .. "[攻击x100]"
+        "基础消耗：" .. colour.purple("{self:mpCost()}"),
+        "对目标造成伤害：" .. colour.gold("{math.floor(self:bindUnit():attack()*100)}") .. "[攻击x100]"
     })
     :castTargetFilter(
     function(this, targetUnit)
