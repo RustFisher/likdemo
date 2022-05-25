@@ -27,8 +27,8 @@ process:onStart(function(this)
 
     ---@type Unit[]
     local u2s = {}
-    for _ = 1, 4 do
-        local u2 = Unit(TPL_UNIT.BloodBeetle, Player(2), -500, 500, 0)
+    for _ = 1, 1 do
+        local u2 = Unit(TPL_UNIT.BloodBeetle, Player(2), -500, -500, 0):move(522)
         table.insert(u2s, u2)
     end
     this:stage("u2s", u2s)

@@ -145,7 +145,6 @@ damageFlow:set("hurtRebound", function(options)
                         elseif (mode == "missile") then
                             ability.missile({
                                 modelAlias = am:missileModel(),
-                                hover = math.rand(am:hover() - 5, am:hover() + 5),
                                 sourceUnit = options.targetUnit,
                                 targetUnit = options.sourceUnit,
                                 speed = am:speed(),
