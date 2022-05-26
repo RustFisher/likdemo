@@ -16,13 +16,12 @@ TPL_ABILITY. AB2 = AbilityTpl()
         ability.silent(effectiveData.targetUnit, 3, "SilenceTarget", "overhead")
         ability.unArm(effectiveData.targetUnit, 3, "SilenceTarget", "weapon")
         ability.crackFly({
+            modelAlias = "WarStompCaster",
             sourceUnit = effectiveData.triggerUnit,
             targetUnit = effectiveData.targetUnit,
-            duration = 1,
-            speed = 500,
             distance = 200,
             height = 1000,
-            flyModel = "WarStompCaster",
+            duration = 1,
             onMove = function()
                 print("move")
             end,
