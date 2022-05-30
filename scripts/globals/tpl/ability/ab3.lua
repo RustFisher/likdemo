@@ -9,16 +9,15 @@ TPL_ABILITY.AB3 = AbilityTpl()
     :onEvent(EVENT.Ability.Effective,
     function(effectiveData)
         ability.leap({
+            modelAlias = "WarStompCaster",
             sourceUnit = effectiveData.triggerUnit,
-            targetX = effectiveData.targetX,
-            targetY = effectiveData.targetY,
+            targetVec = Vector3(effectiveData.targetX, effectiveData.targetY),
             speed = 500,
             animate = "attack",
             acceleration = 0,
             height = 100,
             shake = nil,
             reflex = nil,
-            leapModel = "WarStompCaster",
             onMove = function()
                 print("move")
             end,

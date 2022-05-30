@@ -29,6 +29,6 @@ TPL_ABILITY.AB1 = AbilityTpl()
             end
             effectiveData.triggerAbility:exp("+=10")
             effectiveData.triggerUnit:abilityPoint("+=1")
-            destroy(Effect("slash/Red_swing", effectiveData.targetX, effectiveData.targetY, effectiveData.targetZ))
+            destroy(Effect("DoomDeath", effectiveData.targetX, effectiveData.targetY, effectiveData.targetZ))
         end)
     end)
