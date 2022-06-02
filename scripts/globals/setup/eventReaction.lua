@@ -77,7 +77,7 @@ event.reaction(EVENT.Unit.MPSuckAbility, function(evtData)
 end)
 ---@param evtData noteOnUnitPunishData
 event.reaction(EVENT.Unit.Punish, function(evtData)
-    evtData.triggerUnit:rgb(140, 140, 140, evtData.duration)
+    evtData.triggerUnit:rgba(140, 140, 140, nil, evtData.duration)
     evtData.triggerUnit:attach("ralarvo_ttg_punish", "head", 4.9, 0.2)
 end)
 ---@param evtData noteOnUnitBeStunData
