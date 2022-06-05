@@ -1,5 +1,5 @@
 _assets_selection("Common")
-_assets_font("字魂59号-创粗黑")
+_assets_font("文泉驿等宽微米黑（WenQuanYi Micro Hei Mono）")
 
 _assets_ui("ralarvo_msg")
 _assets_ui("ralarvo_menu")
