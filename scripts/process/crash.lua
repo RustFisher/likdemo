@@ -45,10 +45,10 @@ process:onStart(function(this)
         local during = tonumber(chatOptions[5]) or 3
         must(type ~= "" and table.includes({ "var", "unit", "ttg", "effect", "timer", "stop" }, type))
         if (type == 'stop') then
-            running = false;
+            running = false
             return
         end
-        running = true;
+        running = true
         print("========测试开始"
             .. "\n->type:" .. types[type]
             .. "\n->concurrent:" .. concurrent
@@ -70,7 +70,7 @@ process:onStart(function(this)
                     J.PauseTimer(t)
                     J.DestroyTimer(t)
                     J.handleUnRef(t)
-                    running = false;
+                    running = false
                     print("========" .. types[type] .. "测试结束========")
                     cache = {}
                     return
