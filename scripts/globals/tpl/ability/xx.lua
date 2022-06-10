@@ -39,10 +39,10 @@ TPL_ABILITY.XX = AbilityTpl()
                     shake = "rand",
                     sourceUnit = effectiveData.triggerUnit, --[必须]伤害来源
                     targetUnit = u,
-                    onEnd = function(sou, tar)
+                    onEnd = function(options)
                         ability.damage({
-                            sourceUnit = sou,
-                            targetUnit = tar,
+                            sourceUnit = options.sourceUnit,
+                            targetUnit = options.targetUnit,
                             damage = dmg,
                             damageSrc = DAMAGE_SRC.ability,
                             damageType = options.fire,
