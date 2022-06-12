@@ -2,7 +2,7 @@
 TPL_ABILITY.King = AbilityTpl()
     :name("唯我独尊")
     :targetType(ABILITY_TARGET_TYPE.pas)
-    :icon("AB3")
+    :icon("AB5")
     :levelMax(5)
     :levelUpNeedPoint(1)
     :attributes(
