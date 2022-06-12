@@ -19,10 +19,12 @@ TPL_ABILITY.XX = AbilityTpl()
     function(effectiveData)
         local dmg = effectiveData.triggerUnit:attack() * effectiveData.triggerAbility:level()
         local us = Group(UnitClass):rand({
-            x = effectiveData.triggerUnit:x(),
-            y = effectiveData.triggerUnit:y(),
-            radius = 2000,
             limit = effectiveData.triggerAbility:level() + 2,
+            circle = {
+                x = effectiveData.triggerUnit:x(),
+                y = effectiveData.triggerUnit:y(),
+                radius = 2000,
+            },
             ---@param enumUnit Unit
             filter = function(enumUnit)
                 return enumUnit:isAlive() and effectiveData.triggerUnit:isEnemy(enumUnit:owner())
