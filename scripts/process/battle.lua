@@ -3,6 +3,7 @@ local process = Process("battle")
 process:onStart(function(this)
 
     local u1 = Unit(TPL_UNIT.HeroFlameLord, Player(1), 400, -1000, 66.6)
+    u1:abilitySlot():tail(5)
 
     --ability.silent(u1, 30, "SilenceTarget", "overhead")
     --ability.unArm(u1, 30, "SilenceTarget", "weapon")
