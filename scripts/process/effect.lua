@@ -7,6 +7,7 @@ process:onStart(function(this)
         eff:size(math.rand(1, 3))
            :portal(japi.DzGetMouseTerrainX(), japi.DzGetMouseTerrainY(), japi.DzGetMouseTerrainZ() + 100)
     end)
+
 end)
 
 process:onOver(function(this)

@@ -86,11 +86,11 @@ event.reaction(EVENT.Unit.Be.Stun, function(evtData)
 end)
 ---@param evtData noteOnUnitBeSplitData
 event.reaction(EVENT.Unit.Be.Split, function(evtData)
-    evtData.triggerUnit:effect("SpellBreakerAttack", 0)
+    evtData.triggerUnit:effect("SpellBreakerAttack")
 end)
 ---@param evtData noteOnUnitBeSplitSpreadData
 event.reaction(EVENT.Unit.Be.SplitSpread, function(evtData)
-    evtData.triggerUnit:effect("CleaveDamageTarget", 0)
+    evtData.triggerUnit:effect("CleaveDamageTarget")
 end)
 ---@param evtData noteOnUnitHurtData
 event.reaction(EVENT.Unit.Hurt, function(evtData)
