@@ -26,11 +26,11 @@ process:onStart(function(this)
     local x1 = os.clock()
     local its = {}
     for _ = 1, 10 do
-        local it = Item(TPL_ITEM.IT1):portal(0, -300)
+        local it = Item(TPL_ITEM.IT1):position(0, -300)
         table.insert(its, it)
     end
     for _ = 1, 10 do
-        local it = Item(TPL_ITEM.IT2):portal(0, -300)
+        local it = Item(TPL_ITEM.IT2):position(0, -300)
         table.insert(its, it)
     end
     this:stage("its", its)

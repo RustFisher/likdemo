@@ -9,6 +9,7 @@ _assets_sound('voice/war3/HeroDropItem1', 'war3_dropItem', 'vcm')
 _assets_sound('voice/war3/PickUpItem', 'war3_pickItem', 'vcm')
 _assets_sound('voice/war3/ReceiveGold', 'war3_receiveGold', 'vcm')
 _assets_sound('voice/war3/BundleOfLumber', 'war3_BundleOfLumber', 'vcm')
+_assets_sound('voice/war3/MapPing', 'war3_MapPing', 'vcm')
 
 --【 箭矢模型 】
 
