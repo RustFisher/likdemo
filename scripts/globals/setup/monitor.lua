@@ -16,5 +16,5 @@ Monitor("mana_back")
 ---@param obj Unit
 Monitor("punish_back")
     :frequency(1)
-    :actionFunc(function(obj) obj:punishCur("+=" .. obj:mpRegen()) end)
+    :actionFunc(function(obj) obj:punishCur("+=" .. obj:punishRegen()) end)
     :ignoreFilter(function(obj) return obj:isDead() or obj:punishRegen() == nil or obj:punishRegen() == 0 end)
