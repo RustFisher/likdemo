@@ -12,7 +12,7 @@ process:onStart(function(this)
 
     local var_text = {}
 
-    FrameTooltip(5)
+    FrameTooltips('_')
         .relation(FRAME_ALIGN_RIGHT_TOP, FrameGameUI, FRAME_ALIGN_RIGHT_TOP, -0.002, -0.04)
         .textAlign(TEXT_ALIGN_LEFT)
         .content(
