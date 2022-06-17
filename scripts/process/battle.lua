@@ -5,6 +5,10 @@ process:onStart(function(this)
     local u1 = Unit(TPL_UNIT.HeroFlameLord, Player(1), 400, -1000, 66.6)
     u1:abilitySlot():tail(6)
 
+    time.setTimeout(3, function(curTimer)
+        japi.DzSetUnitModel(u1:handle(), AModel("HeroPaladin"))
+    end)
+
     --ability.silent(u1, 30, "SilenceTarget", "overhead")
     --ability.unArm(u1, 30, "SilenceTarget", "weapon")
 
