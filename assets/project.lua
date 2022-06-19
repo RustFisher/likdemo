@@ -29,7 +29,7 @@ _assets_icon("ability\\Banish", "AB4")
 _assets_icon("ability\\Aftershock2", "AB5")
 
 -- 牢笼
-_assets_model(":Doodads\\LordaeronSummer\\Props\\Cage\\Cage", "Cage", "deco")
+_assets_model(":Doodads\\LordaeronSummer\\Props\\Cage\\Cage", "Cage", "destructable")
 
 _assets_model("missile/Abstruse", "Abstruse") --紫光奥义
 _assets_model("missile/AbstruseArrow", "AbstruseArrow") --粉紫星芒

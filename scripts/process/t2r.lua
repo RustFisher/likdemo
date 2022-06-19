@@ -2,7 +2,7 @@ local process = Process("t2r")
 
 process:onStart(function(this)
 
-    japi.DzFrameEditBlackBorders(0, 0.13)
+    --japi.DzFrameEditBlackBorders(0, 0.13)
     local u1 = Unit(TPL_UNIT.HeroFlameLord, Player(1), 0, 0, 0)
     this:stage("u1", u1)
 
