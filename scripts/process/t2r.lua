@@ -9,7 +9,7 @@ process:onStart(function(this)
     local t2rFrame = FrameBackdrop("t2r", FrameGameUI)
         :relation(FRAME_ALIGN_CENTER, FrameGameUI, FRAME_ALIGN_LEFT_BOTTOM, 0, 0)
         :size(0.08, 0.004)
-        :texture("ReplaceableTextures\\TeamColor\\TeamColor03.blp")
+        :texture(TEAM_COLOR_BLP_PURPLE)
 
     japi.Refresh("t2r", function()
         local rx, ry = japi.DzConvertWorldPosition(u1:x(), u1:y(), 150 + u1:stature() + u1:h())
