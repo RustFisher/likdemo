@@ -1,4 +1,4 @@
-TPL_ITEM.IT2 = ItemTpl("TreasureChest")
+TPL_ITEM.IT2 = ItemTpl()
     :name("物品2")
     :icon("AB5")
     :levelMax(9)

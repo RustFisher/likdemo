@@ -28,13 +28,19 @@ _assets_icon("ability\\ArcaneArcaneResilience", "AB3")
 _assets_icon("ability\\Banish", "AB4")
 _assets_icon("ability\\Aftershock2", "AB5")
 
--- 牢笼
-_assets_model(":Doodads\\LordaeronSummer\\Props\\Cage\\Cage", "Cage", "destructable")
+_assets_icon("unit\\HeroAvatarOfFlame")
+_assets_icon("unit\\ArcaneHuntress")
+_assets_icon("unit\\DarkRangerGradient")
+_assets_icon("unit\\DarkRangerDegenerate")
+_assets_icon("unit\\HunterPetSilithid")
 
 _assets_model("missile/Abstruse", "Abstruse") --紫光奥义
 _assets_model("missile/AbstruseArrow", "AbstruseArrow") --粉紫星芒
 
-_assets_model("hero/BEArcaneHuntress", "BEArcaneHuntress", "unit", { Art = "unit\\ArcaneHuntress" }) --刺客
-_assets_model("hero/Banshee_Queen_Sylvanas", "Banshee_Queen_Sylvanas", "unit", { Art = "unit\\DarkRangerGradient" }) --黑游（普通）
-_assets_model("hero/TheBansheeQueen", "TheBansheeQueen", "unit", { Art = "unit\\DarkRangerDegenerate" }) --黑游（魔化）
-_assets_model("hero/BloodBeetle", "BloodBeetle", "unit", { Art = "unit\\HunterPetSilithid" }) --血牙
+_assets_model("hero/BEArcaneHuntress", "BEArcaneHuntress") --刺客
+_assets_model("hero/Banshee_Queen_Sylvanas", "Banshee_Queen_Sylvanas") --黑游（普通）
+_assets_model("hero/TheBansheeQueen", "TheBansheeQueen") --黑游（魔化）
+_assets_model("hero/BloodBeetle", "BloodBeetle") --血牙
+
+-- 牢笼
+_assets_destructable(":Doodads\\LordaeronSummer\\Props\\Cage\\Cage", "Cage")

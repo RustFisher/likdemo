@@ -7,7 +7,7 @@ Game():onEvent(EVENT.Game.Start, function()
     --- 中央顶部信息
     time.setInterval(1, function()
         local info = {}
-        local timeOfDay = time.timeOfDay()
+        local timeOfDay = time.ofDay()
         local tit = ""
         if (timeOfDay >= 0.00 and timeOfDay < 6.00) then
             tit = "凌晨"

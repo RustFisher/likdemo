@@ -1,4 +1,4 @@
-TPL_ITEM.IT1 = ItemTpl("TreasureChest")
+TPL_ITEM.IT1 = ItemTpl()
     :name("物品1")
     :ability(TPL_ABILITY.AB1)
     :icon("AB4")
