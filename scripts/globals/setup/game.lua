@@ -37,3 +37,5 @@ Game():onEvent(EVENT.Game.Start, function()
     end)
 
 end)
+
+Game():customBar(true)
