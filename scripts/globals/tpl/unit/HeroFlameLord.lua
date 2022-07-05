@@ -1,6 +1,7 @@
 --- 火焰巨魔
 TPL_UNIT.HeroFlameLord = UnitTpl("HeroFireLord")
     :modelAlias("HeroFlameLord")
+    :scale(1.2)
     :icon("unit\\HeroAvatarOfFlame")
     :attack(11)
     :attackModePush(AttackMode():mode("missile"):missileModel("FaerieDragonMissile"):homing(true):height(300):speed(300))
