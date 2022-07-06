@@ -30,7 +30,7 @@ process:onStart(function(this)
 
     ---@type Unit[]
     local u2s = {}
-    for _ = 1, 5 do
+    for _ = 1, 1 do
         local u2 = Unit(TPL_UNIT.BloodBeetle, Player(2), math.rand(-400, 400), math.rand(-400, 400), 0):move(0)
         table.insert(u2s, u2)
     end

@@ -36,6 +36,6 @@ Game():onEvent(EVENT.Game.Start, function()
         Game():prop("infoCenter", info)
     end)
 
-end)
+    Game():barAvatar(true)
 
-Game():customBar(true)
+end)

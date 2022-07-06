@@ -17,8 +17,7 @@ process:onStart(function(this)
             t2rFrame:show(false)
             return
         end
-        print("屏幕x2", rx)
-        print("屏幕y2", ry)
+        print("屏幕xy=", rx, ry)
         t2rFrame:relation(FRAME_ALIGN_CENTER, FrameGameUI, FRAME_ALIGN_LEFT_BOTTOM, rx, ry):show(true)
     end)
 
