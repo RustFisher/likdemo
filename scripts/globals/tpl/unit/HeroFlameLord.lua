@@ -1,5 +1,6 @@
 --- 火焰巨魔
 TPL_UNIT.HeroFlameLord = UnitTpl("HeroFireLord")
+    :barStateMode(3)
     :barStateAlways(true)
     :modelAlias("HeroFlameLord")
     :scale(1.2)
@@ -24,4 +25,5 @@ TPL_UNIT.HeroFlameLord = UnitTpl("HeroFireLord")
     :hpSuckAttack("+=10")
     :mpSuckAttack("+=10")
     :punish(2000)
+    :punishRegen(10)
     :weight("+=10")
