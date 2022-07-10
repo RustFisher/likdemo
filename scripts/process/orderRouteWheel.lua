@@ -27,6 +27,7 @@ process:onStart(function(this)
         local u = Unit(TPL_UNIT.HeroFlameLord, Player(i), r[1][1], r[1][2], 0)
         us[i] = u
         u:orderRoute(true, r)
+        u:period(2)
     end
 
 end)
