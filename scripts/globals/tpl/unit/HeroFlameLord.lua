@@ -2,6 +2,7 @@
 TPL_UNIT.HeroFlameLord = UnitTpl("HeroFireLord")
     :barStateMode(3)
     :barStateAlways(true)
+    :barStateMarker(300)
     :modelAlias("HeroFlameLord")
     :scale(1.2)
     :icon("unit\\HeroAvatarOfFlame")
