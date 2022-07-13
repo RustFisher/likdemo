@@ -1,6 +1,6 @@
 --- 火焰巨魔
 TPL_UNIT.HeroFlameLord = UnitTpl("HeroFireLord")
-    :barStateMode(3)
+    :barStateMode(2)
     :barStateAlways(true)
     :barStateMarker(300)
     :modelAlias("HeroFlameLord")
