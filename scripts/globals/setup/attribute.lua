@@ -27,7 +27,7 @@ Game():defineDescription("attributes", function(this, options)
             d1 = m2
             d2 = a[3] or d1
         elseif (type(m2) == "string") then
-            method = method .. '_' .. m2
+            method = method .. "_" .. m2
             d1 = a[3] or 0
             d2 = a[4] or d1
         end
