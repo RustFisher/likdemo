@@ -1,7 +1,5 @@
-attribute.labels = {
-    attack = "攻击",
-    defend = "防御",
-}
+attribute.labels("attack", "攻击")
+attribute.labels("defend", "防御")
 
 -- 定义智能属性描述体
 -- [基础信息]
@@ -31,15 +29,16 @@ Game():defineDescription("attributes", function(this, options)
             d1 = a[3] or 0
             d2 = a[4] or d1
         end
-        if (attribute.labels[method] ~= nil) then
+        local label = attribute.labels(method)
+        if (label ~= nil) then
             local v = d1
             if (lv > 1) then
                 v = v + (lv - 1) * d2
             end
             if (v > 0) then
-                table.insert(desc, attribute.labels[method] .. ": +" .. v)
+                table.insert(desc, label .. ": +" .. v)
             elseif (v < 0) then
-                table.insert(desc, attribute.labels[method] .. ": " .. v)
+                table.insert(desc, label .. ": " .. v)
             end
         end
     end
