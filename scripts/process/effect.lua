@@ -12,5 +12,6 @@ end)
 
 process:onOver(function(this)
     destroy(this:stage("eff"))
+    mouse.onMove("eff", 3, nil)
 end)
 
