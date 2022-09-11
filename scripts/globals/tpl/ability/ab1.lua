@@ -11,10 +11,12 @@ TPL_ABILITY.AB1 = AbilityTpl()
     :castRadiusAdv(500, 50)
     :levelMax(9)
     :description(
-    {
-        "基础消耗：" .. colour.purple("{self:mpCost()}"),
-        "对目标造成伤害：" .. colour.gold("{math.floor(self:bindUnit():attack()*100)}") .. "[攻击x100]"
-    })
+    function(obj)
+        return {
+            "基础消耗：" .. colour.purple(obj:mpCost()),
+            "对目标造成伤害：" .. colour.gold(math.floor(obj:bindUnit():attack() * 100)) .. "[攻击x100]"
+        }
+    end)
     :castTargetFilter(
     function(this, targetUnit)
         return targetUnit ~= nil and targetUnit:isEnemy(this:bindUnit():owner())
