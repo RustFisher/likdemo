@@ -1,6 +1,5 @@
 -- 配置游戏 - 物品栏热键
--- 这里使用魔兽的 78 45 12
-Game():itemHotkey({ "Numpad7", "Numpad8", "Numpad4", "Numpad5", "Numpad1", "Numpad2" })
+Game():itemHotkey({ "1", "2", "3", "4", "5", "6" })
 
 Game():itemUpgrade(99, 100, 1.00, 10000)
 
@@ -42,7 +41,7 @@ Game():defineDescription("itemBase", function(this, _)
     local desc = {}
     local name
     if (this:level() > 0) then
-        name = this:name() .. "[" .. colour.white(this:level()) .. " 级]"
+        name = this:name() .. "[" .. colour.hex(colour.white, this:level()) .. " 级]"
     else
         name = this:name()
     end
@@ -50,7 +49,7 @@ Game():defineDescription("itemBase", function(this, _)
         local tt = this:ability():targetType()
         if (isClass(this, ItemClass)) then
             if (tt ~= ABILITY_TARGET_TYPE.pas and this:hotkey() ~= nil) then
-                name = name .. "（" .. colour.gold(this:hotkey()) .. "）"
+                name = name .. "（" .. colour.hex(colour.gold, this:hotkey()) .. "）"
             end
             table.insert(desc, name)
         else
@@ -58,7 +57,7 @@ Game():defineDescription("itemBase", function(this, _)
         end
         desc = table.merge(desc, Game():combineDescription(this:ability(), nil, "itemAbility", SYMBOL_D, "attributes"))
         if (this:charges() > 0) then
-            table.insert(desc, colour.white("|n剩余次数：" .. this:charges()))
+            table.insert(desc, colour.hex(colour.white, "|n剩余次数：" .. this:charges()))
         end
     else
         table.insert(desc, name)

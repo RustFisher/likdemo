@@ -9,9 +9,8 @@ _assets_ui("lik_debug") --DEBUG次之
 _assets_ui("lik_cursor") --指针置顶
 
 _assets_sound("metal_bash_heavy", nil, "vwp")
-_assets_sound("voice/clickhero/level_up", "lv", "v3d")
 _assets_sound("voice/action/打鼓", "drum", "v3d")
-_assets_sound("bgm/Dungeon and Fighter - GBL女神殿 - goddess temple", "gbl", "bgm")
+_assets_sound("bgm/Other - Mysterious.mp3", "Mysterious", "bgm")
 
 _assets_model("buff/ApaceGrowth")
 _assets_model("slash/Red_swing")

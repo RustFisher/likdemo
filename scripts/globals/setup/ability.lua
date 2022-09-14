@@ -14,26 +14,27 @@ Game():defineDescription("abilityBase", function(this, options)
     local tt = this:targetType()
     if (isClass(this, AbilityClass)) then
         if (tt ~= ABILITY_TARGET_TYPE.pas) then
-            table.insert(desc, this:name() .. " - 等级 " .. colour.gold(lv) .. "（" .. colour.gold(this:hotkey()) .. "）")
+            table.insert(desc, this:name() .. " - 等级 " .. colour.hex(colour.gold, lv) .. "（" .. colour.hex(colour.gold, this:hotkey()) .. "）")
         else
-            table.insert(desc, this:name() .. " - 等级 " .. colour.gold(lv))
+            table.insert(desc, this:name() .. " - 等级 " .. colour.hex(colour.gold, lv))
         end
     else
         table.insert(desc, this:name())
     end
-    table.insert(desc, "类型：" .. colour.gold(tt.label))
+    table.insert(desc, "类型：" .. colour.hex(colour.gold, tt.label))
     if (tt ~= ABILITY_TARGET_TYPE.pas) then
         local chantCast = this:castChant(lv)
         if (chantCast > 0) then
-            table.insert(desc, "吟唱时间：" .. colour.skyLight(chantCast .. " 秒"))
+            table.insert(desc, "吟唱时间：" .. colour.hex(colour.skyLight, chantCast .. " 秒"))
         else
-            table.insert(desc, "吟唱时间：" .. colour.skyLight("瞬间施法"))
+            table.insert(desc, "吟唱时间：" .. colour.hex(colour.skyLight, "瞬间施法"))
         end
         local keepCast = this:castKeep(lv)
         if (keepCast > 0) then
-            table.insert(desc, "最大施法持续：" .. colour.skyLight(keepCast .. " 秒"))
+            table.insert(desc, "最大施法持续：" .. colour.hex(colour.skyLight, keepCast .. " 秒"))
         end
     end
+    table.insert(desc, "")
     return desc
 end)
 
@@ -41,6 +42,6 @@ end)
 ---@param this Ability
 Game():defineDescription("abilityLvPoint", function(this, _)
     if (this:levelUpNeedPoint() > 0) then
-        return { colour.hex("升级需要技能点: " .. this:levelUpNeedPoint(), "EFBA16") }
+        return { colour.hex("EFBA16", "升级需要技能点: " .. this:levelUpNeedPoint()) }
     end
 end)
