@@ -31,7 +31,7 @@ Game():defineDescription("itemAbility", function(this, options)
             table.insert(options, { "ccffff", keepCast })
         end
     end
-    return colour.format(string.implode("|n", str), "ee82ee", options)
+    return colour.format(string.implode("|n", str), colour.lightcoral, options)
 end)
 
 -- 定义物品描述体

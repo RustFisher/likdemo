@@ -25,16 +25,15 @@ Game():defineDescription("abilityBase", function(this, options)
     if (tt ~= ABILITY_TARGET_TYPE.pas) then
         local chantCast = this:castChant(lv)
         if (chantCast > 0) then
-            table.insert(desc, "吟唱时间：" .. colour.hex(colour.skyLight, chantCast .. " 秒"))
+            table.insert(desc, "吟唱时间：" .. colour.hex(colour.lightcyan, chantCast .. " 秒"))
         else
-            table.insert(desc, "吟唱时间：" .. colour.hex(colour.skyLight, "瞬间施法"))
+            table.insert(desc, "吟唱时间：" .. colour.hex(colour.lightcyan, "瞬间施法"))
         end
         local keepCast = this:castKeep(lv)
         if (keepCast > 0) then
-            table.insert(desc, "最大施法持续：" .. colour.hex(colour.skyLight, keepCast .. " 秒"))
+            table.insert(desc, "最大施法持续：" .. colour.hex(colour.lightcyan, keepCast .. " 秒"))
         end
     end
-    table.insert(desc, "")
     return desc
 end)
 

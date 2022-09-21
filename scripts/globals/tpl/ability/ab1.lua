@@ -13,7 +13,7 @@ TPL_ABILITY.AB1 = AbilityTpl()
     :description(
     function(obj)
         return {
-            "基础消耗：" .. colour.hex(colour.purple, obj:mpCost()),
+            "基础消耗：" .. colour.hex(colour.violet, obj:mpCost()),
             "对目标造成伤害：" .. colour.hex(colour.gold, math.floor(obj:bindUnit():attack() * 100)) .. "[攻击x100]"
         }
     end)

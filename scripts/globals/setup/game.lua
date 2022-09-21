@@ -1,12 +1,8 @@
 -- 游戏信息
 Game():onEvent(EVENT.Game.Start, function()
 
-    --- 游戏介绍
-    Game():prop("infoIntro", "暂无")
-
     --- 中央顶部信息
     time.setInterval(1, function()
-        local info = {}
         local timeOfDay = time.ofDay()
         local tit = ""
         if (timeOfDay >= 0.00 and timeOfDay < 6.00) then
@@ -26,14 +22,10 @@ Game():onEvent(EVENT.Game.Start, function()
         end
         local i, f = math.modf(timeOfDay)
         f = math.floor(59 * f)
-        if (i < 10) then
-            i = '0' .. i end
-        if (f < 10) then
-            f = '0' .. f
-        end
-        table.insert(info, tit)
-        table.insert(info, i .. ':' .. f)
-        Game():prop("infoCenter", info)
+        Game():infoCenter({
+            tit,
+            string.fill(i, 2, '0') .. ':' .. string.fill(f, 2, '0')
+        })
     end)
 
     Game():barState(true)
