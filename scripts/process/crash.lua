@@ -13,9 +13,9 @@ process:onStart(function(this)
     local var_text = {}
 
     FrameTooltips(FRAME_OBJ_MAX_TOOLTIPS)
-        .relation(FRAME_ALIGN_RIGHT_TOP, FrameGameUI, FRAME_ALIGN_RIGHT_TOP, -0.002, -0.04)
-        .textAlign(TEXT_ALIGN_LEFT)
-        .content(
+        :relation(FRAME_ALIGN_RIGHT_TOP, FrameGameUI, FRAME_ALIGN_RIGHT_TOP, -0.002, -0.04)
+        :textAlign(TEXT_ALIGN_LEFT)
+        :content(
         {
             tips = {
                 "测试例子，进入游戏，敲入聊天信息",
@@ -26,16 +26,16 @@ process:onStart(function(this)
                 "-timer [concurrent] [frequency] [number] [during]",
             }
         })
-        .show(true)
+        :show(true)
 
     Team("enemy")
-        .colorSync(true)
-        .color(3)
-        .name("敌人")
-        .members({ 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 })
+        :colorSync(true)
+        :color(3)
+        :name("敌人")
+        :members({ 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 })
 
     local running = false
-    Player(1).onChat('%-', function(evtData)
+    Player(1):onChat('%-', function(evtData)
         local chatString = evtData.chatString
         local chatOptions = string.explode(' ', chatString)
         local type = string.gsub(chatOptions[1] or "", "-", "")
@@ -43,12 +43,15 @@ process:onStart(function(this)
         local frequency = tonumber(chatOptions[3]) or 0.5
         local number = tonumber(chatOptions[4]) or 1000
         local during = tonumber(chatOptions[5]) or 3
-        must(type ~= "" and table.includes({ "var", "unit", "ttg", "effect", "timer", "stop" }, type))
-        if (type == 'stop') then
-            running = false
+        if (type == "" or table.includes({ "var", "unit", "ttg", "effect", "timer", "stop" }, type) == false) then
+            error(type)
             return
         end
-        running = true
+        if (type == 'stop') then
+            running = false;
+            return
+        end
+        running = true;
         print("========测试开始"
             .. "\n->type:" .. types[type]
             .. "\n->concurrent:" .. concurrent
@@ -70,7 +73,7 @@ process:onStart(function(this)
                     J.PauseTimer(t)
                     J.DestroyTimer(t)
                     J.handleUnRef(t)
-                    running = false
+                    running = false;
                     print("========" .. types[type] .. "测试结束========")
                     cache = {}
                     return
@@ -84,7 +87,9 @@ process:onStart(function(this)
                     var_text[n] = nil
                 elseif (type == "unit") then
                     --测试创建单位，成绩：83万
-                    destroy(Team("enemy").unit(TPL_UNIT.Footman, x, y, 270), during)
+                    --Team("enemy").unit(TPL_UNIT.Footman, x, y, 270).destroy(during)
+                    local u = Player(1):unit(TPL_UNIT.DEMO, x, y, 270)
+                    destroy(u, during)
                 elseif (type == "ttg") then
                     --测试模型漂浮字，成绩：50万 clear
                     ttg.word({
@@ -99,7 +104,6 @@ process:onStart(function(this)
                     })
                 elseif (type == "effect") then
                     --测试特效，成绩：100万 clear
-                    destroy(Effect("DoomDeath", x, y, 0))
                 elseif (type == "timer") then
                     --测试计时器，成绩：150万 clear
                     --每个占用 0.1764KB 左右，上限不变则不再增加

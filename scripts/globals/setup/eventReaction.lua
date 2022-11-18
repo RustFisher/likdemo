@@ -38,7 +38,7 @@ end)
 ---@param evtData noteOnUnitImmuneDefendData
 event.reaction(EVENT.Unit.ImmuneDefend, function(evtData)
     ttg.model({
-        model = "lik_ttg_immune",
+        model = "lik_ttg_immuneDamage",
         size = 1.2,
         x = evtData.triggerUnit:x(),
         y = evtData.triggerUnit:y(),
@@ -50,7 +50,7 @@ end)
 ---@param evtData noteOnUnitImmuneReductionData
 event.reaction(EVENT.Unit.ImmuneReduction, function(evtData)
     ttg.model({
-        model = "lik_ttg_immune",
+        model = "lik_ttg_immuneDamage",
         size = 1.2,
         x = evtData.triggerUnit:x(),
         y = evtData.triggerUnit:y(),

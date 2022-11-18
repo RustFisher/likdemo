@@ -12,6 +12,7 @@ _assets_sound("voice/war3/ReceiveGold", "war3_ReceiveGold", "vcm")
 _assets_sound("voice/war3/SellItem", "war3_SellItem", "vcm")
 _assets_sound("voice/war3/Error", "war3_Error", "vcm")
 _assets_sound("voice/war3/QuestLog", "war3_QuestLog", "vcm")
+_assets_sound("voice/war3/GoodJob", "war3_GoodJob", "vcm")
 
 --【 语音模版 】
 
@@ -912,7 +913,7 @@ _assets_model(":Abilities\\Spells\\NightElf\\Cyclone\\CycloneTarget.mdl", "Cyclo
 --龙卷风 灰白色龙卷
 _assets_model(":Abilities\\Spells\\Other\\Tornado\\TornadoElementalSmall.mdl", "TornadoElementalSmall")
 --龙卷风 小小风圈
-_assets_model(":Abilities\\Spells\\Other\\Tornado\\Tornado_Target.mdl", "TornadoTarget")
+_assets_model(":Abilities\\Spells\\Other\\Tornado\\Tornado_Target.mdl", "Tornado_Target")
 --慢性毒药 绿色小圈扩散
 _assets_model(":Abilities\\Weapons\\PoisonSting\\PoisonStingTarget.mdl", "PoisonStingTarget")
 --魔力之焰 草绿小球
