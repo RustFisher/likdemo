@@ -17,7 +17,7 @@ function tooltipsItem(whichItem)
         list = {},
     }
     local wor = whichItem:worth()
-    local cale = Game():worthCale(wor, "*", PlayerLocal():sell() * 0.01)
+    local cale = Game():worthCale(wor, "*", PlayerLocal():sellRatio() * 0.01)
     for _, c in ipairs(icons1) do
         local key = c[1]
         local color = c[2]
