@@ -16,7 +16,7 @@ process:onStart(function(this)
 
     local us = {}
     for _ = 1, 20 do
-        local u = t1:unit(TPL_UNIT.BloodBeetle, 0, 0)
+        local u = t1:unit(TPL_UNIT.Footman, 0, 0)
         table.insert(us, u)
     end
     this:stage("us", us)

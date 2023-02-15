@@ -1,7 +1,6 @@
---- 蝎子
-TPL_UNIT.BloodBeetle = UnitTpl("Archnathid")
-    :modelAlias("BloodBeetle")
-    :icon("unit\\HunterPetSilithid")
+TPL_UNIT.Footman = UnitTpl("Archnathid")
+    :modelAlias("Footman")
+    :icon("unit\\Footman")
     :superposition("noAttack", 1)
     :itemSlot({ TPL_ITEM.IT1, TPL_ITEM.IT2 })
     :iconMap("px", 0.003, 0.003)

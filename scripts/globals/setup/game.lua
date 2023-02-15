@@ -28,6 +28,4 @@ Game():onEvent(EVENT.Game.Start, function()
         })
     end)
 
-    Game():barState(true)
-
 end)

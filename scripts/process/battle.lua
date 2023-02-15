@@ -5,23 +5,6 @@ process:onStart(function(this)
     local u1 = Unit(TPL_UNIT.HeroFlameLord, Player(1), 400, -1000, 66.6)
     u1:abilitySlot():tail(6)
 
-    --time.setInterval(1, function(curTimer)
-    --    local d = table.rand({
-    --        "HeroFlameLord",
-    --        "HeroPaladin",
-    --        "Scarab",
-    --        "Wisp",
-    --        "MountainGiant",
-    --        "TinkerRobot",
-    --        "MurlocCyan",
-    --        "Skeleton",
-    --    })
-    --    japi.DzSetUnitModel(u1:handle(), AModel(d))
-    --end)
-
-    --ability.silent(u1, 30, "SilenceTarget", "overhead")
-    --ability.unArm(u1, 30, "SilenceTarget", "weapon")
-
     ---@param damageData noteOnUnitDamageData
     u1:onEvent(EVENT.Unit.Damage, function(damageData)
         damageData.triggerUnit:exp("+=10")
@@ -31,7 +14,7 @@ process:onStart(function(this)
     ---@type Unit[]
     local u2s = {}
     for _ = 1, 1 do
-        local u2 = Unit(TPL_UNIT.BloodBeetle, Player(2), math.rand(-400, 400), math.rand(-400, 400), 0):move(0)
+        local u2 = Unit(TPL_UNIT.Footman, Player(2), math.rand(-400, 400), math.rand(-400, 400), 0):move(0)
         table.insert(u2s, u2)
     end
     this:stage("u2s", u2s)
