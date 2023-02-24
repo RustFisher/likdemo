@@ -1,4 +1,4 @@
-TPL_UNIT.Footman = UnitTpl("Archnathid")
+TPL_UNIT.Footman = UnitTpl("Footman")
     :modelAlias("Footman")
     :icon("unit\\Footman")
     :superposition("noAttack", 1)
