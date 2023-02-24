@@ -1,143 +1,183 @@
 local damageFlow = Flow("damage")
+    :abort(
+    function(data)
+        return data.damage <= 0
+    end)
 
 --- 提取一些需要的参数
-damageFlow:set("prop", function(options)
-    options.defend = options.targetUnit:defend()
-    options.avoid = options.targetUnit:avoid() - options.sourceUnit:aim()
+damageFlow:set("prop", function(data)
+    data.defend = data.targetUnit:defend()
+    data.avoid = data.targetUnit:avoid()
+    if (isClass(data.sourceUnit, UnitClass)) then
+        data.avoid = data.avoid - data.sourceUnit:aim()
+    end
 end)
 
 --- 判断无视装甲类型
-damageFlow:set("breakArmor", function(options)
+damageFlow:set("breakArmor", function(data)
     local ignore = { defend = false, avoid = false, invincible = false }
-    if (#options.breakArmor > 0) then
-        for _, b in ipairs(options.breakArmor) do
+    if (#data.breakArmor > 0) then
+        for _, b in ipairs(data.breakArmor) do
             if (b ~= nil) then
                 ignore[b.value] = true
                 --- 触发无视防御事件
-                event.trigger(options.sourceUnit, EVENT.Unit.BreakArmor, { triggerUnit = options.sourceUnit, targetUnit = options.targetUnit, breakType = b })
+                event.trigger(data.sourceUnit, EVENT.Unit.BreakArmor, { triggerUnit = data.sourceUnit, targetUnit = data.targetUnit, breakType = b })
                 --- 触发被破防事件
-                event.trigger(options.targetUnit, EVENT.Unit.Be.BreakArmor, { triggerUnit = options.targetUnit, breakUnit = options.sourceUnit, breakType = b })
+                event.trigger(data.targetUnit, EVENT.Unit.Be.BreakArmor, { triggerUnit = data.targetUnit, breakUnit = data.sourceUnit, breakType = b })
             end
         end
     end
-    --- 处理护甲
-    if (ignore.defend == true and options.defend > 0) then
-        options.defend = 0
+    --- 处理防御
+    if (ignore.defend == true and data.defend > 0) then
+        data.defend = 0
     end
     --- 处理回避
-    if (ignore.avoid == true and options.avoid > 0) then
-        options.avoid = 0
+    if (ignore.avoid == true and data.avoid > 0) then
+        data.avoid = 0
     end
     --- 单位是否无视无敌
-    if (true == options.targetUnit:isInvulnerable()) then
+    if (true == data.targetUnit:isInvulnerable()) then
         if (ignore.invincible == false) then
             --- 触发无敌抵御事件
-            options.damage = 0
-            event.trigger(options.sourceUnit, EVENT.Unit.ImmuneInvincible, { triggerUnit = options.targetUnit, sourceUnit = options.sourceUnit })
-            return
-        end
-    end
-end)
-
---- 自身攻击暴击
-damageFlow:set("crit", function(options)
-    local approve = (options.sourceUnit ~= nil and (options.damageSrc == DAMAGE_SRC.attack or options.damageSrc == DAMAGE_SRC.ability))
-    if (approve) then
-        local crit = options.sourceUnit:crit()
-        if (crit > 0) then
-            local odds = options.sourceUnit:odds("crit") - options.targetUnit:resistance("crit")
-            if (odds > math.rand(1, 100)) then
-                options.damage = options.damage * (1 + crit * 0.01)
-                --- 触发时自动无视回避
-                options.avoid = 0
-                --- 触发暴击事件
-                ability.crit({ sourceUnit = options.sourceUnit, targetUnit = options.targetUnit })
-            end
-        end
-    end
-end)
-
---- 回避
-damageFlow:set("avoid", function(options)
-    local approve = (options.avoid > 0 and (options.damageSrc == DAMAGE_SRC.attack or options.damageSrc == DAMAGE_SRC.rebound))
-    if (approve) then
-        if (options.avoid > math.rand(1, 100)) then
-            -- 触发回避事件
-            options.damage = 0
-            event.trigger(options.targetUnit, EVENT.Unit.Avoid, { triggerUnit = options.targetUnit, sourceUnit = options.sourceUnit })
-            event.trigger(options.sourceUnit, EVENT.Unit.Be.Avoid, { triggerUnit = options.sourceUnit, targetUnit = options.targetUnit })
+            data.damage = 0
+            event.trigger(data.sourceUnit, EVENT.Unit.ImmuneInvincible, { triggerUnit = data.targetUnit, sourceUnit = data.sourceUnit })
             return
         end
     end
 end)
 
 --- 伤害加深(%)
-damageFlow:set("damageIncrease", function(options)
-    local approve = (options.sourceUnit ~= nil)
+damageFlow:set("damageIncrease", function(data)
+    local approve = (data.sourceUnit ~= nil)
     if (approve) then
-        local damageIncrease = options.sourceUnit:damageIncrease()
+        local damageIncrease = data.sourceUnit:damageIncrease()
         if (damageIncrease > 0) then
-            options.damage = options.damage * (1 + damageIncrease * 0.01)
+            data.damage = data.damage * (1 + damageIncrease * 0.01)
+        end
+    end
+end)
+
+--- 护盾
+damageFlow:set("shield", function(data)
+    local sh = data.targetUnit:shieldCur()
+    if (sh > 0) then
+        local sd = 0
+        if (sh >= data.damage) then
+            sd = data.damage
+            data.damage = 0
+        else
+            sd = sh
+            data.damage = data.damage - sh
+        end
+        if (sd > 0) then
+            data.targetUnit:shieldCur("-=" .. sd)
+            event.trigger(data.targetUnit, EVENT.Unit.Be.Shield, { triggerUnit = data.targetUnit, sourceUnit = data.sourceUnit, value = sd })
+            event.trigger(data.sourceUnit, EVENT.Unit.Shield, { triggerUnit = data.sourceUnit, targetUnit = data.targetUnit, value = sd })
         end
     end
 end)
 
 --- 受伤加深(%)
-damageFlow:set("hurtIncrease", function(options)
-    local hurtIncrease = options.targetUnit:hurtIncrease()
+damageFlow:set("hurtIncrease", function(data)
+    local hurtIncrease = data.targetUnit:hurtIncrease()
     if (hurtIncrease > 0) then
-        options.damage = options.damage * (1 + hurtIncrease * 0.01)
+        data.damage = data.damage * (1 + hurtIncrease * 0.01)
+    end
+end)
+
+--- 自身暴击
+damageFlow:set("crit", function(data)
+    local approve = (data.sourceUnit ~= nil and (data.damageSrc == DAMAGE_SRC.attack))
+    if (approve) then
+        local crit = data.sourceUnit:crit()
+        if (crit > 0) then
+            local odds = data.sourceUnit:odds("crit") - data.targetUnit:resistance("crit")
+            if (odds > math.rand(1, 100)) then
+                data.damage = data.damage * (1 + crit * 0.01)
+                --- 触发时自动无视回避
+                data.avoid = 0
+                --- 触发本体暴击
+                data.crit = true
+                event.trigger(data.sourceUnit, EVENT.Unit.Crit, { triggerUnit = data.sourceUnit, targetUnit = data.targetUnit })
+                event.trigger(data.targetUnit, EVENT.Unit.Be.Crit, { triggerUnit = data.targetUnit, sourceUnit = data.sourceUnit })
+            end
+        end
+    end
+end)
+
+--- 回避
+damageFlow:set("avoid", function(data)
+    local approve = (data.avoid > 0 and (data.damageSrc == DAMAGE_SRC.attack or data.damageSrc == DAMAGE_SRC.rebound))
+    if (approve) then
+        if (data.avoid > math.rand(1, 100)) then
+            -- 触发回避事件
+            data.damage = 0
+            event.trigger(data.targetUnit, EVENT.Unit.Avoid, { triggerUnit = data.targetUnit, sourceUnit = data.sourceUnit })
+            event.trigger(data.sourceUnit, EVENT.Unit.Be.Avoid, { triggerUnit = data.sourceUnit, targetUnit = data.targetUnit })
+            return
+        end
+    end
+end)
+
+--- 自身攻击眩晕
+damageFlow:set("stun", function(data)
+    local approve = (data.sourceUnit ~= nil and (data.damageSrc == DAMAGE_SRC.attack))
+    if (approve) then
+        local stun = data.sourceUnit:stun()
+        if (stun > 0) then
+            --- 触发眩晕
+            ability.stun({ sourceUnit = data.sourceUnit, targetUnit = data.targetUnit, duration = stun, odds = data.sourceUnit:odds("stun") })
+        end
     end
 end)
 
 --- 反伤(%)
-damageFlow:set("hurtRebound", function(options)
+damageFlow:set("hurtRebound", function(data)
     -- 抵抗
-    local approve = (options.sourceUnit ~= nil and options.damageSrc == DAMAGE_SRC.rebound)
+    local approve = (data.sourceUnit ~= nil and data.damageSrc == DAMAGE_SRC.rebound)
     if (approve) then
-        local resistance = options.sourceUnit:resistance("hurtRebound")
+        local resistance = data.sourceUnit:resistance("hurtRebound")
         if (resistance > 0) then
-            options.damage = math.max(0, options.damage * (1 - resistance * 0.01))
-            if (options.damage < 1) then
-                options.damage = 0
+            data.damage = math.max(0, data.damage * (1 - resistance * 0.01))
+            if (data.damage < 1) then
+                data.damage = 0
                 return
             end
         end
     end
     -- 反射
-    approve = (options.sourceUnit ~= nil and (options.damageSrc == DAMAGE_SRC.attack or options.damageSrc == DAMAGE_SRC.ability))
+    approve = (data.sourceUnit ~= nil and (data.damageSrc == DAMAGE_SRC.attack or data.damageSrc == DAMAGE_SRC.ability))
     if (approve) then
-        local hurtRebound = options.targetUnit:hurtRebound()
-        local odds = options.targetUnit:odds("hurtRebound")
+        local hurtRebound = data.targetUnit:hurtRebound()
+        local odds = data.targetUnit:odds("hurtRebound")
         if (hurtRebound > 0 and odds > math.rand(1, 100)) then
-            local dmgRebound = math.trunc(options.damage * hurtRebound * 0.01, 3)
+            local dmgRebound = math.trunc(data.damage * hurtRebound * 0.01, 3)
             if (dmgRebound >= 1.000) then
                 local damagedArrived = function()
                     --- 触发反伤事件
                     ability.damage({
-                        sourceUnit = options.targetUnit,
-                        targetUnit = options.sourceUnit,
+                        sourceUnit = data.targetUnit,
+                        targetUnit = data.sourceUnit,
                         damage = dmgRebound,
                         damageSrc = DAMAGE_SRC.rebound,
-                        damageType = options.damageType,
+                        damageType = data.damageType,
                         damageTypeLevel = 0,
                     })
                 end
-                if (options.damageSrc == DAMAGE_SRC.attack) then
+                if (data.damageSrc == DAMAGE_SRC.attack) then
                     -- 攻击情况
-                    if (options.sourceUnit:isMelee()) then
+                    if (data.sourceUnit:isMelee()) then
                         damagedArrived()
                     else
-                        local am = options.sourceUnit:attackMode()
+                        local am = data.sourceUnit:attackMode()
                         local mode = am:mode()
                         if (mode == "lightning") then
                             local lDur = 0.3
                             local lDelay = lDur * 0.6
-                            ability.lightning(
-                                am:lightningType(),
-                                options.targetUnit:x(), options.targetUnit:y(), options.targetUnit:h(),
-                                options.sourceUnit:x(), options.sourceUnit:y(), options.sourceUnit:h(),
-                                lDur
+                            Lightning(
+                                am:lightningType(), lDur,
+                                data.targetUnit:x(), data.targetUnit:y(), data.targetUnit:h(),
+                                data.sourceUnit:x(), data.sourceUnit:y(), data.sourceUnit:h()
                             )
                             time.setTimeout(lDelay, function()
                                 damagedArrived()
@@ -145,8 +185,8 @@ damageFlow:set("hurtRebound", function(options)
                         elseif (mode == "missile") then
                             ability.missile({
                                 modelAlias = am:missileModel(),
-                                sourceUnit = options.targetUnit,
-                                targetUnit = options.sourceUnit,
+                                sourceUnit = data.targetUnit,
+                                targetUnit = data.sourceUnit,
                                 speed = am:speed(),
                                 height = am:height() / 4,
                                 acceleration = am:acceleration(),
@@ -154,7 +194,7 @@ damageFlow:set("hurtRebound", function(options)
                             })
                         end
                     end
-                elseif (options.damageSrc == DAMAGE_SRC.ability) then
+                elseif (data.damageSrc == DAMAGE_SRC.ability) then
                     -- 技能情况
                     damagedArrived()
                 end
@@ -164,136 +204,146 @@ damageFlow:set("hurtRebound", function(options)
 end)
 
 --- 防御
-damageFlow:set("defend", function(options)
-    if (options.defend < 0) then
-        options.damage = options.damage + math.abs(options.defend)
-    elseif (options.defend > 0) then
-        options.damage = options.damage - options.defend
-        if (options.damage < 1) then
+damageFlow:set("defend", function(data)
+    if (data.defend < 0) then
+        data.damage = data.damage + math.abs(data.defend)
+    elseif (data.defend > 0) then
+        data.damage = data.damage - data.defend
+        if (data.damage < 1) then
             -- 触发防御完全抵消事件
-            options.damage = 0
-            event.trigger(options.targetUnit, EVENT.Unit.ImmuneDefend, { triggerUnit = options.targetUnit, sourceUnit = options.sourceUnit })
+            data.damage = 0
+            event.trigger(data.targetUnit, EVENT.Unit.ImmuneDefend, { triggerUnit = data.targetUnit, sourceUnit = data.sourceUnit })
             return
         end
     end
 end)
 
 --- 减伤(%)
-damageFlow:set("hurtReduction", function(options)
-    local hurtReduction = options.targetUnit:hurtReduction()
+damageFlow:set("hurtReduction", function(data)
+    local hurtReduction = data.targetUnit:hurtReduction()
     if (hurtReduction > 0) then
-        options.damage = options.damage * (1 - hurtReduction * 0.01)
-        if (options.damage < 1) then
+        data.damage = data.damage * (1 - hurtReduction * 0.01)
+        if (data.damage < 1) then
             -- 触发减伤完全抵消事件
-            options.damage = 0
-            event.trigger(options.targetUnit, EVENT.Unit.ImmuneReduction, { triggerUnit = options.targetUnit, sourceUnit = options.sourceUnit })
+            data.damage = 0
+            event.trigger(data.targetUnit, EVENT.Unit.ImmuneReduction, { triggerUnit = data.targetUnit, sourceUnit = data.sourceUnit })
             return
         end
     end
 end)
 
 --- 攻击吸血
-damageFlow:set("hpSuckAttack", function(options)
-    local approve = (options.sourceUnit ~= nil and options.damageSrc == DAMAGE_SRC.attack)
+damageFlow:set("hpSuckAttack", function(data)
+    local approve = (data.sourceUnit ~= nil and data.damageSrc == DAMAGE_SRC.attack)
     if (approve) then
-        local percent = options.sourceUnit:hpSuckAttack() - options.targetUnit:resistance("hpSuckAttack")
-        local val = options.damage * percent * 0.01
+        local percent = data.sourceUnit:hpSuckAttack() - data.targetUnit:resistance("hpSuckAttack")
+        local val = data.damage * percent * 0.01
         if (percent > 0 and val > 0) then
-            options.sourceUnit:hpCur("+=" .. val)
+            data.sourceUnit:hpCur("+=" .. val)
             --- 触发吸血事件
-            event.trigger(options.sourceUnit, EVENT.Unit.HPSuckAttack, { triggerUnit = options.sourceUnit, targetUnit = options.targetUnit, value = val, percent = percent })
-            event.trigger(options.targetUnit, EVENT.Unit.Be.HPSuckAttack, { triggerUnit = options.targetUnit, sourceUnit = options.sourceUnit, value = val, percent = percent })
+            event.trigger(data.sourceUnit, EVENT.Unit.HPSuckAttack, { triggerUnit = data.sourceUnit, targetUnit = data.targetUnit, value = val, percent = percent })
+            event.trigger(data.targetUnit, EVENT.Unit.Be.HPSuckAttack, { triggerUnit = data.targetUnit, sourceUnit = data.sourceUnit, value = val, percent = percent })
         end
     end
 end)
 
 --- 技能吸血
-damageFlow:set("hpSuckAbility", function(options)
-    local approve = (options.sourceUnit ~= nil and options.damageSrc == DAMAGE_SRC.ability)
+damageFlow:set("hpSuckAbility", function(data)
+    local approve = (data.sourceUnit ~= nil and data.damageSrc == DAMAGE_SRC.ability)
     if (approve) then
-        local percent = options.sourceUnit:hpSuckAbility() - options.targetUnit:resistance("hpSuckAbility")
-        local val = options.damage * percent * 0.01
+        local percent = data.sourceUnit:hpSuckAbility() - data.targetUnit:resistance("hpSuckAbility")
+        local val = data.damage * percent * 0.01
         if (percent > 0 and val > 0) then
-            options.sourceUnit:hpCur("+=" .. val)
+            data.sourceUnit:hpCur("+=" .. val)
             --- 触发技能吸血事件
-            event.trigger(options.sourceUnit, EVENT.Unit.HPSuckAbility, { triggerUnit = options.sourceUnit, targetUnit = options.targetUnit, value = val, percent = percent })
-            event.trigger(options.targetUnit, EVENT.Unit.Be.HPSuckAbility, { triggerUnit = options.targetUnit, sourceUnit = options.sourceUnit, value = val, percent = percent })
+            event.trigger(data.sourceUnit, EVENT.Unit.HPSuckAbility, { triggerUnit = data.sourceUnit, targetUnit = data.targetUnit, value = val, percent = percent })
+            event.trigger(data.targetUnit, EVENT.Unit.Be.HPSuckAbility, { triggerUnit = data.targetUnit, sourceUnit = data.sourceUnit, value = val, percent = percent })
         end
     end
 end)
 
 --- 攻击吸魔;吸魔会根据伤害，扣减目标的魔法值，再据百分比增加自己的魔法值;目标魔法值不足 1 从而吸收时，则无法吸取
-damageFlow:set("mpSuckAttack", function(options)
-    local approve = (options.sourceUnit ~= nil and options.damageSrc == DAMAGE_SRC.attack and options.sourceUnit:mp() > 0 and options.targetUnit:mpCur() > 0)
+damageFlow:set("mpSuckAttack", function(data)
+    local approve = (data.sourceUnit ~= nil and data.damageSrc == DAMAGE_SRC.attack and data.sourceUnit:mp() > 0 and data.targetUnit:mpCur() > 0)
     if (approve) then
-        local percent = options.sourceUnit:mpSuckAttack() - options.targetUnit:resistance("mpSuckAttack")
+        local percent = data.sourceUnit:mpSuckAttack() - data.targetUnit:resistance("mpSuckAttack")
         if (percent > 0) then
-            local mana = math.min(options.targetUnit:mp(), options.damage)
+            local mana = math.min(data.targetUnit:mp(), data.damage)
             local val = mana * percent * 0.01
             if (val > 1) then
-                options.targetUnit:mpCur("-=" .. val)
-                options.sourceUnit:mpCur("+=" .. val)
+                data.targetUnit:mpCur("-=" .. val)
+                data.sourceUnit:mpCur("+=" .. val)
                 --- 触发吸魔事件
-                event.trigger(options.sourceUnit, EVENT.Unit.MPSuckAttack, { triggerUnit = options.sourceUnit, targetUnit = options.targetUnit, value = val, percent = percent })
-                event.trigger(options.targetUnit, EVENT.Unit.Be.MPSuckAttack, { triggerUnit = options.targetUnit, sourceUnit = options.sourceUnit, value = val, percent = percent })
+                event.trigger(data.sourceUnit, EVENT.Unit.MPSuckAttack, { triggerUnit = data.sourceUnit, targetUnit = data.targetUnit, value = val, percent = percent })
+                event.trigger(data.targetUnit, EVENT.Unit.Be.MPSuckAttack, { triggerUnit = data.targetUnit, sourceUnit = data.sourceUnit, value = val, percent = percent })
             end
         end
     end
 end)
 
 --- 技能吸魔;吸魔会根据伤害，扣减目标的魔法值，再据百分比增加自己的魔法值;目标魔法值不足 1 从而吸收时，则无法吸取
-damageFlow:set("mpSuckAbility", function(options)
-    local approve = (options.sourceUnit ~= nil and options.damageSrc == DAMAGE_SRC.ability and options.sourceUnit.mp() > 0 and options.targetUnit.mpCur() > 0)
+damageFlow:set("mpSuckAbility", function(data)
+    local approve = (data.sourceUnit ~= nil and data.damageSrc == DAMAGE_SRC.ability and data.sourceUnit:mp() > 0 and data.targetUnit:mpCur() > 0)
     if (approve) then
-        local percent = options.sourceUnit:mpSuckAbility() - options.targetUnit:resistance("mpSuckAbility")
+        local percent = data.sourceUnit:mpSuckAbility() - data.targetUnit:resistance("mpSuckAbility")
         if (percent > 0) then
-            local mana = math.min(options.targetUnit:mp(), options.damage)
+            local mana = math.min(data.targetUnit:mp(), data.damage)
             local val = mana * percent * 0.01
             if (val > 1) then
-                options.targetUnit:mpCur("-=" .. val)
-                options.sourceUnit:mpCur("+=" .. val)
+                data.targetUnit:mpCur("-=" .. val)
+                data.sourceUnit:mpCur("+=" .. val)
                 --- 触发技能吸魔事件
-                event.trigger(options.sourceUnit, EVENT.Unit.MPSuckAbility, { triggerUnit = options.sourceUnit, targetUnit = options.targetUnit, value = val, percent = percent })
-                event.trigger(options.targetUnit, EVENT.Unit.Be.MPSuckAbility, { triggerUnit = options.targetUnit, sourceUnit = options.sourceUnit, value = val, percent = percent })
+                event.trigger(data.sourceUnit, EVENT.Unit.MPSuckAbility, { triggerUnit = data.sourceUnit, targetUnit = data.targetUnit, value = val, percent = percent })
+                event.trigger(data.targetUnit, EVENT.Unit.Be.MPSuckAbility, { triggerUnit = data.targetUnit, sourceUnit = data.sourceUnit, value = val, percent = percent })
             end
         end
     end
 end)
 
---- 硬直
-damageFlow:set("punishCur", function(options)
-    local approve = (options.targetUnit:punish() > 0 and options.targetUnit:isPunishing() == false)
-    if (approve) then
-        options.targetUnit:punishCur("-=" .. options.damage)
-    end
-end)
-
---- 附魔加成|抵抗
-damageFlow:set("enchant", function(options)
-    local addition = 0
-    if (options.sourceUnit ~= nil) then
-        local amplify = options.sourceUnit:enchant(options.damageType.value)
+--- 附魔加成|抵抗|精通|附着|免疫
+damageFlow:set("enchant", function(data)
+    local percent = 0
+    if (data.sourceUnit ~= nil) then
+        local amplify = data.sourceUnit:enchant(data.damageType.value)
         if (amplify ~= 0) then
-            addition = addition + amplify * 0.01
+            percent = percent + amplify
         end
     end
-    local resistance = options.targetUnit:enchantResistance(options.damageType.value)
+    local resistance = data.targetUnit:enchantResistance(data.damageType.value)
     if (resistance ~= 0) then
-        addition = addition - resistance * 0.01
+        percent = percent - resistance
+    end
+    if (data.sourceUnit ~= nil) then
+        local mystery = data.sourceUnit:enchantMystery() * 0.01 + 1
+        mystery = math.max(0, mystery)
+        percent = percent * mystery
     end
     --- 触发附魔事件
-    event.trigger(options.targetUnit, EVENT.Unit.Enchant, {
-        triggerUnit = options.sourceUnit,
-        targetUnit = options.targetUnit,
-        enchantType = options.damageType,
-        addition = addition
+    event.trigger(data.targetUnit, EVENT.Unit.Enchant, {
+        triggerUnit = data.sourceUnit,
+        targetUnit = data.targetUnit,
+        enchantType = data.damageType,
+        percent = percent
     })
-    options.damage = options.damage * (1 + addition)
+    if (data.damageType ~= DAMAGE_TYPE.common) then
+        -- 一般设定攻击技能物品来源可触发附魔，禁止反应式伤害再触发
+        if (data.damageSrc == DAMAGE_SRC.attack or data.damageSrc == DAMAGE_SRC.ability or data.damageSrc == DAMAGE_SRC.item) then
+            enchant.append(data.targetUnit, data.damageType, data.damageTypeLevel, data.sourceUnit)
+        end
+    end
+    if (data.targetUnit:isEnchantImmune(data.damageType.value)) then
+        -- 触发免疫附魔事件
+        data.damage = 0
+        event.trigger(data.targetUnit, EVENT.Unit.ImmuneEnchant, { triggerUnit = data.targetUnit, sourceUnit = data.sourceUnit, enchantType = data.damageType })
+    else
+        data.damage = data.damage * (100 + percent) * 0.01
+    end
 end)
 
--- 附魔附着
-damageFlow:set("damageAppend", function(options)
-    if (options.damageType ~= DAMAGE_TYPE.common) then
-        attribute.damageAppend(options.sourceUnit, options.targetUnit, options.damageType, options.damageTypeLevel)
+--- 硬直
+damageFlow:set("punishCur", function(data)
+    local approve = (data.targetUnit:punish() > 0 and data.targetUnit:isPunishing() == false)
+    if (approve) then
+        data.targetUnit:punishCur("-=" .. data.damage)
     end
 end)

@@ -20,27 +20,27 @@ Game():defineDescription("abilityBase", function(this, options)
         table.insert(desc, this:name())
     end
     table.insert(desc, colour.hex(colour.gold, "类型: " .. tt.label))
-    if (tt ~= ABILITY_TARGET_TYPE.pas) then
-        local chantCast = this:castChant(lv)
-        if (chantCast > 0) then
-            table.insert(desc, colour.hex(colour.lightskyblue, "吟唱时间: " .. chantCast .. " 秒"))
-        else
-            table.insert(desc, colour.hex(colour.lightskyblue, "吟唱时间: 瞬间施法"))
-        end
-        local keepCast = this:castKeep(lv)
-        if (keepCast > 0) then
-            table.insert(desc, colour.hex(colour.lightskyblue, "最大施法持续: " .. keepCast .. " 秒"))
-        end
-        if (tt ~= ABILITY_TARGET_TYPE.tag_nil) then
-            table.insert(desc, colour.hex(colour.lightskyblue, "施法距离: " .. this:castDistance(lv)))
-        end
-        if (tt == ABILITY_TARGET_TYPE.tag_circle) then
-            table.insert(desc, colour.hex(colour.lightskyblue, "圆形范围: " .. this:castRadius(lv)))
-        elseif (tt == ABILITY_TARGET_TYPE.tag_square) then
-            local castWidth = this:castWidth(lv)
-            local castHeight = this:castHeight(lv)
-            table.insert(desc, colour.hex(colour.lightskyblue, "方形范围: " .. castWidth .. '*' .. castHeight))
-        end
+    local chantCast = this:castChant(lv)
+    if (chantCast > 0) then
+        table.insert(desc, colour.hex(colour.lightskyblue, "吟唱时间: " .. chantCast .. " 秒"))
+    elseif (tt ~= ABILITY_TARGET_TYPE.pas) then
+        table.insert(desc, colour.hex(colour.lightskyblue, "吟唱时间: 瞬间施法"))
+    end
+    local keepCast = this:castKeep(lv)
+    if (keepCast > 0) then
+        table.insert(desc, colour.hex(colour.lightskyblue, "最大施法持续: " .. keepCast .. " 秒"))
+    end
+    if (tt ~= ABILITY_TARGET_TYPE.tag_nil and tt ~= ABILITY_TARGET_TYPE.pas) then
+        table.insert(desc, colour.hex(colour.lightskyblue, "施法距离: " .. this:castDistance(lv)))
+    end
+    local castRadius = this:castRadius(lv)
+    if (castRadius > 0) then
+        table.insert(desc, colour.hex(colour.lightskyblue, "圆形半径: " .. this:castRadius(lv)))
+    end
+    local castWidth = this:castWidth(lv)
+    local castHeight = this:castHeight(lv)
+    if (castWidth > 0 and castHeight > 0) then
+        table.insert(desc, colour.hex(colour.lightskyblue, "方形范围: " .. castWidth .. '*' .. castHeight))
     end
     table.insert(desc, '')
     return desc

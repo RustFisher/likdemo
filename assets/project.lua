@@ -1,6 +1,6 @@
 _assets_selection("Common")
 
-_assets_font("PingFangSC") --苹方字体不支持免费商用，仅作参考
+_assets_font("文泉驿等宽微米黑（WenQuanYi Micro Hei Mono）")
 
 _assets_icon("black")
 
@@ -11,6 +11,7 @@ _assets_sound("voice/waract/举世无双", "举世无双", "bgm") --背景音乐
 
 _assets_ui("lik_msg")
 _assets_ui("lik_menu")
+_assets_ui("lik_minimap")
 _assets_ui("lik_ctl")
 _assets_ui("lik_buff")
 _assets_ui("lik_debug")

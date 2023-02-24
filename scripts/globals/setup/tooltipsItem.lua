@@ -11,7 +11,7 @@ function tooltipsItem(whichItem)
         { "copper", "EC6700", "铜" }
     }
     local content = {
-        tips = Game():combineDescription(whichItem, nil, "itemBase", SYMBOL_D, "attributes"),
+        tips = Game():combineDescription(whichItem, nil, "itemBase"),
         icons1 = {},
         bars = {},
         list = {},
@@ -51,24 +51,6 @@ function tooltipsItem(whichItem)
                     })
                 end
             end
-        end
-        if (PlayerLocal():warehouseSlot():empty() > 0) then
-            table.insert(content.list, { key = "warehouse", text = colour.hex(colour.lightcyan, "放入仓库"), textAlign = TEXT_ALIGN_LEFT })
-        else
-            table.insert(content.list, { text = colour.hex(colour.silver, "仓库已满"), textAlign = TEXT_ALIGN_LEFT })
-        end
-        if (whichItem:dropable()) then
-            table.insert(content.list, { key = "drop", text = colour.hex(colour.littlepink, "丢弃"), textAlign = TEXT_ALIGN_CENTER })
-        else
-            table.insert(content.tips, colour.hex(colour.silver, "|n不可丢弃"))
-        end
-        if (whichItem:pawnable()) then
-            table.insert(content.list, { key = "pawn", text = colour.hex(colour.gold, "出售"), textAlign = TEXT_ALIGN_CENTER })
-        else
-            table.insert(content.tips, colour.hex(colour.silver, "|n不可出售"))
-        end
-        if (1 == 0) then
-            table.insert(content.list, { key = "separate", text = colour.hex(colour.violet, "拆分"), textAlign = TEXT_ALIGN_CENTER })
         end
     end
     return content

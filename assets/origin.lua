@@ -3,16 +3,18 @@
 
 --【 音效 】
 
+_assets_sound("voice/war3/AutoCastButtonClick1", "war3_AutoCastButtonClick1", "vcm")
+_assets_sound("voice/war3/CreepAggroWhat1", "war3_CreepAggroWhat1", "vcm")
+_assets_sound("voice/war3/Error", "war3_Error", "vcm")
+_assets_sound("voice/war3/GoodJob", "war3_GoodJob", "vcm")
 _assets_sound("voice/war3/HeroDropItem1", "war3_HeroDropItem1", "vcm")
-_assets_sound("voice/war3/PickUpItem", "war3_PickUpItem", "vcm")
+_assets_sound("voice/war3/MapPing", "war3_MapPing", "vcm")
 _assets_sound("voice/war3/MouseClick1", "war3_MouseClick1", "vcm")
 _assets_sound("voice/war3/MouseClick2", "war3_MouseClick2", "vcm")
-_assets_sound("voice/war3/MapPing", "war3_MapPing", "vcm")
+_assets_sound("voice/war3/PickUpItem", "war3_PickUpItem", "vcm")
+_assets_sound("voice/war3/QuestLog", "war3_QuestLog", "vcm")
 _assets_sound("voice/war3/ReceiveGold", "war3_ReceiveGold", "vcm")
 _assets_sound("voice/war3/SellItem", "war3_SellItem", "vcm")
-_assets_sound("voice/war3/Error", "war3_Error", "vcm")
-_assets_sound("voice/war3/QuestLog", "war3_QuestLog", "vcm")
-_assets_sound("voice/war3/GoodJob", "war3_GoodJob", "vcm")
 
 --【 语音模版 】
 
@@ -36,10 +38,8 @@ _assets_speech(":Garithos", "Garithos")
 _assets_speech(":Sylvanus", "Sylvanus")
 --火凤凰
 _assets_speech(":Phoenix", "Phoenix")
---剑圣绿
+--剑圣
 _assets_speech(":HeroBladeMaster", "HeroBladeMaster")
---剑圣红
-_assets_speech(":HeroChaosBladeMaster", "HeroChaosBladeMaster")
 --地狱咆哮
 _assets_speech(":Grom", "Grom")
 --先知
@@ -403,7 +403,7 @@ _assets_speech(":TerranMarine", "TerranMarine")
 --邪恶空间兽人(冲锋枪兽人)
 _assets_speech(":ChaosSpaceOrc", "ChaosSpaceOrc")
 --村民男1
-_assets_speech(":VillagerMan", "VillagerMan")
+_assets_speech(":VillagerMan", "VillagerMan1")
 --村民男2
 _assets_speech(":VillagerMan2", "VillagerMan2")
 --村民女1
@@ -433,6 +433,8 @@ _assets_model(":Abilities\\Weapons\\Mortar\\MortarMissile.mdl", "MortarMissile")
 _assets_model(":Abilities\\Weapons\\GryphonRiderMissile\\GryphonRiderMissile.mdl", "GryphonRiderMissile")
 --蒸汽机车
 _assets_model(":Abilities\\Weapons\\SteamTank\\SteamTankImpact.mdl", "SteamTankImpact")
+--飞行机器 导弹
+_assets_model(":Abilities\\Weapons\\FlyingMachine\\FlyingMachineMissile.mdl", "FlyingMachineMissile")
 --魔法破坏者
 _assets_model(":Abilities\\Weapons\\BloodElfSpellThiefMISSILE\\BloodElfSpellThiefMISSILE.mdl", "BloodElfSpellThiefMissile")
 --牧师
@@ -563,7 +565,7 @@ _assets_model(":Abilities\\Spells\\NightElf\\shadowstrike\\ShadowStrikeMissile.m
 _assets_model(":Abilities\\Spells\\NightElf\\FanOfKnives\\FanOfKnivesMissile.mdl", "FanOfKnivesMissile")
 --复仇之魂白球
 _assets_model(":Abilities\\Spells\\NightElf\\SpiritOfVengeance\\SpiritOfVengeanceBirthMissile.mdl", "SpiritOfVengeanceBirthMissile")
---灼热之箭
+--灼热之箭/火焰之箭
 _assets_model(":Abilities\\Weapons\\SearingArrow\\SearingArrowMissile.mdl", "SearingArrowMissile")
 --冰冻冷箭
 _assets_model(":Abilities\\Weapons\\ColdArrow\\ColdArrowMissile.mdl", "ColdArrowMissile")
@@ -648,7 +650,7 @@ _assets_model(":Abilities\\Spells\\NightElf\\Rejuvenation\\RejuvenationTarget.md
 _assets_model(":Abilities\\Spells\\Items\\ScrollOfRejuvenation\\ScrollManaHealth.mdl", "ScrollManaHealth")
 --生命恢复 环环 青蓝
 _assets_model(":Abilities\\Spells\\Items\\ClarityPotion\\ClarityTarget.mdl", "ClarityTarget")
---回复魔法 金条金光
+--回复生命 金条金光
 _assets_model(":Abilities\\Spells\\Items\\AIhe\\AIheTarget.mdl", "AIheTarget")
 --回复魔法 蓝条蓝光
 _assets_model(":Abilities\\Spells\\Items\\AIma\\AImaTarget.mdl", "AImaTarget")
@@ -926,6 +928,8 @@ _assets_model(":Abilities\\Spells\\Other\\Charm\\CharmTarget.mdl", "CharmTarget"
 _assets_model(":Abilities\\Spells\\Demon\\DemonBoltImpact\\DemonBoltImpact.mdl", "DemonBoltImpact")
 --分裂 绿扩散
 _assets_model(":Abilities\\Spells\\Other\\Cleave\\CleaveDamageTarget.mdl", "CleaveDamageTarget")
+--金币飞舞 几个金币跳动
+_assets_model(":UI\\Feedback\\GoldCredit\\GoldCredit.mdl", "GoldCredit")
 --点金术 金币散散散
 _assets_model(":Abilities\\Spells\\Other\\Transmute\\PileofGold.mdl", "PileOfGold")
 --季风 自上而下单条闪电
@@ -970,8 +974,6 @@ _assets_model(":Objects\\Spawnmodels\\Human\\HCancelDeath\\HCancelDeath.mdl", "H
 _assets_model(":Abilities\\Weapons\\GryphonRiderMissile\\GryphonRiderMissileTarget.mdl", "GryphonRiderMissileTarget")
 --鬼哭上天
 _assets_model(":Objects\\Spawnmodels\\Undead\\UndeadDissipate\\UndeadDissipate.mdl", "UndeadDissipate")
---金币翻腾
-_assets_model(":UI\\Feedback\\GoldCredit\\GoldCredit.mdl", "GoldCredit")
 --沙尘爆破
 _assets_model(":Objects\\Spawnmodels\\Undead\\ImpaleTargetDust\\ImpaleTargetDust.mdl", "ImpaleTargetDust")
 --诡异爆破
@@ -1091,7 +1093,7 @@ _assets_model(":units\\nightelf\\Furion\\Furion.mdl", "Furion")
 --玛尔法里奥
 _assets_model(":units\\nightelf\\MalFurion\\MalFurion.mdl", "MalFurion")
 --玛尔法里奥(无鹿角)
-_assets_model(":units\\nightelf\\MalFurion\\MalFurionNoStag.mdl", "MalFurion")
+_assets_model(":units\\nightelf\\MalFurion\\MalFurionNoStag.mdl", "MalFurionNoStag")
 --黑暗游侠
 _assets_model(":Units\\Creeps\\BansheeRanger\\BansheeRanger.mdl", "BansheeRanger")
 --火焰巨魔
@@ -1535,7 +1537,6 @@ _assets_model(":units\\creeps\\TimberWolf\\TimberWolf.mdl", "TimberWolf")
 _assets_model(":units\\creeps\\WhiteWolf\\WhiteWolf.mdl", "WhiteWolf")
 --夜狼
 _assets_model(":units\\creeps\\DireWolf\\DireWolf.mdl", "DireWolf")
-
 --海豹
 _assets_model(":units\\critters\\Seal\\Seal.mdl", "Seal")
 --浣熊

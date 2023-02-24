@@ -30,3 +30,6 @@ _assets_model("ttg/Enchant_thunder", "lik_ttg_e_thunder")
 _assets_model("ttg/Enchant_water", "lik_ttg_e_water")
 _assets_model("ttg/Enchant_wind", "lik_ttg_e_wind")
 _assets_model("ttg/Enchant_steel", "lik_ttg_e_steel")
+_assets_model("interface/BossAlert") -- 指示器[条]100*750
+_assets_model("interface/BossAlertRing") -- 指示器[圆]160
+_assets_model("interface/BossAlertSquare") -- 指示器[正方]160

@@ -21,7 +21,7 @@ Game():defineDescription("itemAbility", function(this)
             table.insert(desc, colour.hex(colour.lightskyblue, "施法距离: " .. this:castDistance(lv)))
         end
         if (tt == ABILITY_TARGET_TYPE.tag_circle) then
-            table.insert(desc, colour.hex(colour.lightskyblue, "圆形范围: " .. this:castRadius(lv)))
+            table.insert(desc, colour.hex(colour.lightskyblue, "圆形半径: " .. this:castRadius(lv)))
         elseif (tt == ABILITY_TARGET_TYPE.tag_square) then
             local castWidth = this:castWidth(lv)
             local castHeight = this:castHeight(lv)
@@ -59,7 +59,7 @@ Game():defineDescription("itemBase", function(this, options)
         local tt = ab:targetType()
         if (isClass(this, ItemClass)) then
             if (tt ~= ABILITY_TARGET_TYPE.pas and this:hotkey() ~= nil) then
-                name = name .. "（" .. colour.hex(colour.gold, this:hotkey()) .. "）"
+                name = name .. "（" .. colour.hex(colour.gold, "数字" .. this:hotkey()) .. "）"
             end
             desc[1] = name
         else
