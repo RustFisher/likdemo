@@ -1,0 +1,6 @@
+TPL_UNIT.Footman2 = UnitTpl("Footman")
+    :modelAlias("Footman")
+    :icon("unit\\Footman")
+    :superposition("noAttack", 1)
+    :immovable(true)
+    :hp(100)

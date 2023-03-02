@@ -8,7 +8,7 @@ TPL_ABILITY.AB1 = AbilityTpl()
     :mpCostAdv(50, 7)
     :castChantAdv(2, -0.1)
     :castKeepAdv(10, 0.5)
-    :castRadiusAdv(500, 50)
+    :castRadiusAdv(300, 50)
     :levelMax(9)
     :description(
     function(obj)
