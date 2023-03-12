@@ -55,14 +55,6 @@ function tooltipsWarehouse(whichItem, whichPlayer)
                 end
             end
         end
-        local selection = whichPlayer:selection()
-        if (isClass(selection, UnitClass)) then
-            if (whichItem:dropable()) then
-                table.insert(content.list, { key = "drop", text = colour.hex(colour.littlepink, "丢弃"), textAlign = TEXT_ALIGN_CENTER })
-            else
-                table.insert(content.tips, colour.hex(colour.red, "不可丢弃"))
-            end
-        end
     end
     return content
 end
