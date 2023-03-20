@@ -8,21 +8,21 @@ process:onStart(function(this)
             { hotkey = "Q", label = "一般困难", value = 1 },
             { hotkey = "W", label = "非常困难", value = 2 },
             { hotkey = "E", label = "极奇困难", value = 3 },
-            { hotkey = "R", label = "破天荒难", value = 4 },
+            { label = "破天荒难", value = 5 },
         },
         function(evtData)
             destroy(evtData.triggerDialog)
-            if (evtData.hotkey == "Q") then
+            if (evtData.value == 1) then
                 --搞点事情
-            elseif (evtData.hotkey == "W") then
+            elseif (evtData.value == 2) then
                 --搞点事情
-            elseif (evtData.hotkey == "E") then
+            elseif (evtData.value == 5) then
                 --搞点事情
             else
                 --搞点事情
             end
-            echo("选择了：" .. evtData.label .. "等级：" .. evtData.value)
+            echo("选择了：" .. evtData.label .. "，" .. evtData.value)
         end
-    ).show()
+    ):show()
 
 end)
