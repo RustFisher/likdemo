@@ -1,0 +1,21 @@
+local process = Process("fogModifier")
+
+process:onStart(function(this)
+    this.fm = FogModifier(Player(1), "可见度修正器")
+    this.fm:radius(500)
+    this.fm:enable(true)
+    time.setTimeout(3, function()
+        this.fm:radius(800)
+        time.setTimeout(3, function()
+            this.fm:position(0, -1200)
+            time.setTimeout(3, function()
+                this.fm:bindRegion(Region("可见度修正区", "square", 0, 1200, 1920, 1080))
+            end)
+        end)
+    end)
+end)
+
+process:onOver(function(this)
+    destroy(this.fm)
+end)
+
