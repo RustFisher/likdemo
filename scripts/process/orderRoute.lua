@@ -20,7 +20,7 @@ process:onStart(function(this)
             function(orderUnit)
                 ability.leap({
                     sourceUnit = orderUnit,
-                    targetVec = Vector3(0, -1000, 0),
+                    targetVec = { 0, -1000, 0 },
                     speed = 3000,
                     height = 500,
                     reflex = 2,
@@ -48,10 +48,10 @@ process:onStart(function(this)
         { -500, -1000 },
     })
 
-    time.setTimeout(6, function()
+    time.setTimeout(3, function()
         print("第5段")
-        u1:orderRouteSet(5, { 0, 0 })
-        time.setTimeout(10, function()
+        u1:orderRouteSet(6, { 0, 0 })
+        time.setTimeout(5, function()
             print("删除第5段")
             u1:orderRouteSet(5, nil)
         end)
